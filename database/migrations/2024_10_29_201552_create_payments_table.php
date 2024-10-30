@@ -11,20 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dailies', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('reserveId');
-            $table->unsignedBigInteger('ghestId');
-            $table->primary(['reserveId', 'ghestId']);
+            $table->decimal('value', 10,2);
             $table->foreign('reserveId')
                     ->references('id')
                     ->on('reserves')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
-            $table->foreign('ghestId')
-                    ->references('id')
-                    ->on('ghests')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -34,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dailies');
+        Schema::dropIfExists('payments');
     }
 };
