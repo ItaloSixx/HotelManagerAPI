@@ -11,3 +11,7 @@ Artisan::command('inspire', function () {
 Artisan::command('import:xml', function () {
     Artisan::call(ImportXmlCommand::class);
 })->describe('Importa dados de um XML');
+
+Artisan::command('schedule:run', function () {
+    Artisan::call('schedule:run');
+})->describe('Executa o comando agendado');
