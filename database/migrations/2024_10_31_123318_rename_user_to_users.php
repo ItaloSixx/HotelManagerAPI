@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::rename('user', 'users');
+        Schema::rename('user', 'users'); 
     }
 
     public function down(): void
