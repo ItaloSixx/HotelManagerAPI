@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        $userId = DB::table('users')->insertGetId([
+        $user = DB::table('users')->insertGetId([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -32,10 +32,15 @@ class UserController extends Controller
             'updated_at' => now()
 
         ]);
+        if ($user === 0) {
+            return response()->json([
+                'message' => 'Usuário não cadastrado'
+            ], 500);
+        }
 
         return response()->json([
-            'message' => 'usuário criado com sucesso'
-        ]);
+            'message' => 'Cadastrado com sucesso'
+        ], 201);
     }
 
 
@@ -72,12 +77,12 @@ class UserController extends Controller
     if ($userPut === 0) {
         return response()->json([
             'message' => 'Usuário não encontrado ou não atualizado'
-        ], 404);
+        ], 500);
     }
 
     return response()->json([
         'message' => 'Atualizado com sucesso'
-    ], 200);
+    ], 201);
 }
 
 
@@ -89,11 +94,11 @@ class UserController extends Controller
         if(!$userExist){
             return response()->json([
                 'message' => 'Usuário não encontrado/excluido'
-            ], 404);
+            ], 500);
         }
 
         return response()->json([
             'Message' => 'Usuário excluído com sucesso'
-        ], 200);
+        ], 201);
     }
 }
