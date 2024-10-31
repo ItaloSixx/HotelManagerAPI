@@ -19,24 +19,24 @@ class CouponsController extends Controller
 
     public function store(CouponRequest $request)
     {
-    $data = $request->validated();
+        $data = $request->validated();
 
-    $coupon = DB::table('coupons')->insert([
-        'code' => $data['code'],
-        'discount_value' => $data['discount_value'],
-        'created_at' => now(),
-        'updated_at' => now()
-    ]);
+        $coupon = DB::table('coupons')->insert([
+            'code' => $data['code'],
+            'discount_value' => $data['discount_value'],
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
-    if (!$coupon) {
+        if (!$coupon) {
+            return response()->json([
+                'message' => 'Erro ao criar o cupom'
+            ], 500);
+        }
+
         return response()->json([
-            'message' => 'Erro ao criar o cupom'
-        ], 500);
-    }
-
-    return response()->json([
-        'message' => 'Cupom criado com sucesso'
-    ], 201);
+            'message' => 'Cupom criado com sucesso'
+        ], 201);
     }
 
 
@@ -57,14 +57,40 @@ class CouponsController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(CouponRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        $couponPut = DB::table('coupons')->where('id', $id)->update([
+            'code' => $data['code'],
+            'discount_value' => $data['discount_value'],
+            'updated_at' => now()
+        ]);
+
+        if(!$couponPut === 0){
+            return response()->json([
+                'message' => 'Cupom não encontrado ou não atualizado'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Atualizado com sucesso'
+        ]);
     }
 
 
     public function destroy(string $id)
     {
-        //
+        $couponDel = DB::table('coupons')->where('id', $id)->update(['deleted_at' => now()]);
+
+        if(!$couponDel){
+            return response()->json([
+                'message' => 'Cupom não excluído'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Excluído com sucesso'
+        ], 201);
     }
 }

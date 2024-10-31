@@ -89,16 +89,6 @@ class UserController extends Controller
 
     public function destroy(string $id)
     {
-        $userExist = DB::table('users')->where('id', $id)->update(['deleted_at'=> now()]);
-
-        if(!$userExist){
-            return response()->json([
-                'message' => 'Usuário não encontrado/excluido'
-            ], 500);
-        }
-
-        return response()->json([
-            'Message' => 'Usuário excluído com sucesso'
-        ], 201);
+        
     }
 }
