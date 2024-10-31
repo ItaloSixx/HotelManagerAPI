@@ -43,11 +43,16 @@ class ImportXmlCommand extends Command
         $json = json_encode($xmlContent);
         $data = json_decode($json, true);
 
-
         //importando os xmls
         $this->importHotels($data);
+        $this->importPayments($data);
         $this->importRoom($data);
         $this->importReserves($data);
+        $this->importCoupons($data);
+        $this->importDailies($data);
+        $this->importGuests($data);
+        $this->importReserveGuests($data);
+        $this->importUsers($data);
 
     }
 
@@ -100,7 +105,7 @@ class ImportXmlCommand extends Command
                 foreach ($reserve['Guest'] as $guest) {
                     DB::table('guests')->updateOrInsert(
                         [
-                            'reserve_id' => $reserveId,
+                            'reserveId' => $reserveId,
                             'phone' => (string) $guest['Phone']
                         ],
                         [
@@ -116,7 +121,7 @@ class ImportXmlCommand extends Command
                 foreach ($reserve['Daily'] as $daily) {
                     DB::table('dailies')->updateOrInsert(
                         [
-                            'reserve_id' => $reserveId,
+                            'reserveId' => $reserveId,
                             'date' => (string) $daily['Date']
                         ],
                         [
@@ -130,7 +135,7 @@ class ImportXmlCommand extends Command
                 foreach ($reserve['Payment'] as $payment) {
                     DB::table('payments')->updateOrInsert(
                         [
-                            'reserve_id' => $reserveId,
+                            'reserveId' => $reserveId,
                             'method' => (int) $payment['Method']
                         ],
                         [
@@ -140,6 +145,100 @@ class ImportXmlCommand extends Command
                 }
             }
         }
+    }
+
+    private function importCoupons(array $data)
+    {
+        if (!isset($data['Coupon'])) return null;
+
+        foreach ($data['Coupon'] as $coupon) {
+            DB::table('coupons')->updateOrInsert(
+                ['id' => (int) $coupon['@attributes']['id']],
+                [
+                    'code' => (string) $coupon['Code'],
+                    'discount_value' => (float) $coupon['DiscountValue']
+                ]
+            );
+        }
+    }
+
+    private function importDailies(array $data)
+    {
+        if (!isset($data['Daily'])) return null;
+        foreach ($data['Daily'] as $daily) {
+            DB::table('dailies')->updateOrInsert(
+                ['id'=>(int) $daily['@attributes']['id']],
+                [
+                    'reserveId' => (int) $daily['@attributes']['reserveId'],
+                    'date' => (string) $daily['Date'],
+                    'value' => (float) $daily['Value']
+                ],
+            );
+        }
+    }
+
+    private function importGuests(array $data)
+    {
+        if (!isset($data['Guest'])) return null;
+
+        foreach ($data['Guest'] as $guest) {
+            DB::table('guests')->updateOrInsert(
+                ['id' => (int) $guest['@attributes']['id']],
+                [
+                    'name' => (string) $guest['Name'],
+                    'lastName' => (string) $guest['LastName'],
+                    'phone' => (string) $guest['Phone']
+                ]
+            );
+        }
+    }
+
+    private function importPayments(array $data)
+    {
+        if (!isset($data['Payment'])) return null;
+        foreach ($data['Payment'] as $payment) {
+            DB::table('payments')->updateOrInsert(
+                [
+                    'id' => (int) $payment['@attributes']['id'],
+                    'reserveId' => (int) $payment['@attributes']['reserveId']
+                ],
+                [
+                    'value' => (float) $payment['Value']
+                ]
+            );
+        }
+    }
+
+    private function importReserveGuests(array $data)
+    {
+        if (!isset($data['ReserveGuest'])) return null;
+
+        foreach ($data['ReserveGuest'] as $reserveGuest) {
+            DB::table('reserve_guests')->updateOrInsert(
+                [
+                    'reserveId' => (int) $reserveGuest['@attributes']['reserveId'],
+                    'guestId' => (int) $reserveGuest['@attributes']['guestId']
+                ],
+                []
+            );
+        }
+    }
+
+    private function importUsers(array $data)
+    {
+        if (!isset($data['User'])) return null;
+
+        foreach ($data['User'] as $user) {
+            DB::table('users')->updateOrInsert(
+                ['id' => (int) $user['@attributes']['id']],
+                [
+                    'name' => (string) $user['Name'],
+                    'email' => (string) $user['Email'],
+                    'password' => bcrypt((string) $user['Password']),
+                    'role' => (string) $user['Role']
+                ]
+            );
+         }
     }
 
 }
