@@ -40,7 +40,22 @@ class CouponsController extends Controller
     }
 
 
-    
+    public function show(string $id)
+    {
+        $coupon = DB::table('coupons')
+                    ->where('id', $id)
+                    ->whereNull('deleted_at')
+                    ->first();
+
+        if(!$coupon){
+            return response()->json([
+                'message' => 'Cupom não encontrado'
+            ], 404);
+        }
+
+        return response()->json($coupon, 201);
+    }
+
 
     public function update(Request $request, string $id)
     {
