@@ -43,7 +43,17 @@ class GuestsController extends Controller
 
     public function show(string $id)
     {
-        
+        $client = DB::table('guests')->where('id', $id)->whereNull('deleted_at')->first();
+
+        if(!$client){
+            return response()->json([
+                'message' => 'Hospede não encontrado'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Hospede cadastrado com sucesso'
+        ]);
     }
 
 
