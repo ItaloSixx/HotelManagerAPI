@@ -27,12 +27,12 @@ class DailiesController extends Controller
             'value' => $data['value'],
             'created_at' => now(),
             'updated_at' => now()
-        ], 500);
+        ]);
 
-        if(!$daily){
+        if (!$daily) {
             return response()->json([
                 'message' => 'Diária não cadastrada'
-            ]);
+            ], 500);
         }
 
         return response()->json([
@@ -82,7 +82,7 @@ class DailiesController extends Controller
     {
         $dailyDel = DB::table('dailies')
                         ->where('id', $id)
-                        ->update(['deleted_at' => now()]);
+                        ->delete();
 
         if(!$dailyDel){
             return response()->json([

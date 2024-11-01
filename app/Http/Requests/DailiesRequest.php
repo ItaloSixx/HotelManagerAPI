@@ -16,7 +16,7 @@ class DailiesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reserveId' => 'required|exists:reserves.,Id',
+            'reserveId' => 'required|exists:reserves,Id',
             'date' => 'required|date',
             'value' => 'required|numeric|min:0'
         ];
