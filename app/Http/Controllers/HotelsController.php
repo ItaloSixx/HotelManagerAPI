@@ -12,12 +12,14 @@ class HotelsController extends Controller
     public function index()
     {
         $hotels = DB::table('hotels')->get();
+
+        return response()->json($hotels, 201);
     }
 
 
     public function store(HotelsRequests $request)
     {
-        $data = $request->validate();
+        $data = $request->validated();
 
         $hotelAdd = DB::table('hotels')->insert([
             'name' => $data['name'],
@@ -54,7 +56,7 @@ class HotelsController extends Controller
     {
         $data = $request->validated();
 
-        $hotelPut = DB::table('hotels')->update([
+        $hotelPut = DB::table('hotels')->where('id', $id)->update([
             'name' => $data['name'],
             'created_at' => now(),
             'updated_at' => now()
@@ -74,7 +76,7 @@ class HotelsController extends Controller
 
     public function destroy(string $id)
     {
-        $hotelDel = DB::table('hotels')->delete();
+        $hotelDel = DB::table('hotels')->where('id', $id)->delete();
 
         if(!$hotelDel){
             return response()->json([
