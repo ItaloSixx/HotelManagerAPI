@@ -74,6 +74,16 @@ class HotelsController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $hotelDel = DB::table('hotels')->delete();
+
+        if(!$hotelDel){
+            return response()->json([
+                'message' => 'Falha ao apagar hotel'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Hotel excluído com sucesso'
+        ], 201);
     }
 }
