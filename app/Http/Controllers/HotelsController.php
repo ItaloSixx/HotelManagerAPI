@@ -36,13 +36,21 @@ class HotelsController extends Controller
 
     public function show(string $id)
     {
+        $hotel = DB::table('hotels')->where('id', $id)->first();
 
+        if(!$hotel){
+            return response()->json([
+                'message' => 'Hotel não encontrado'
+            ], 404);
+        }
+
+        return response()->json($hotel);
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(HotelsRequests $request, string $id)
     {
-        //
+        
     }
 
 
