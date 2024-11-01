@@ -92,6 +92,16 @@ class ReservesController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $reserve = DB::table('reserves')->where('id', $id)->update(['deleted_at'=> now()]);
+
+        if(!$reserve){
+            return response()->json([
+                'message'=> 'Reserva não encontrada ou não excluída'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Reserva excluída'
+        ], 201);
     }
 }
