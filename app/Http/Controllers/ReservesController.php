@@ -104,4 +104,16 @@ class ReservesController extends Controller
             'message' => 'Reserva excluída'
         ], 201);
     }
+
+    public function getGuests($id)
+    {
+        $guests = DB::table('reserve_guests')
+                    ->join('guests', 'reserve_guests.guestId', '=', 'guests.id')
+                    ->where('reserve_guests.reserveId', $id)
+                    ->select('guests.*')
+                    ->get();
+
+        return response()->json($guests, 200);
+    }
+
 }

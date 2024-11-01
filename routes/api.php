@@ -19,3 +19,5 @@ Route::get('/status', function(){
 Route::apiResource('users', UserController::class);
 Route::apiResource('coupons', CouponsController::class);
 Route::apiResource('reserves', ReservesController::class);
+Route::get('/reserves/getGuests/{id}', [ReservesController::class, 'getGuests'])->name('getGuests');
+
