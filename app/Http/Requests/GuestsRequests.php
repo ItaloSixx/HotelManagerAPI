@@ -18,7 +18,7 @@ class GuestsRequests extends FormRequest
         return [
             'name' => 'required',
             'lastname' => 'required',
-            'phone' => 'required|phone'
+            'phone' => 'required|numeric'
         ];
     }
 }

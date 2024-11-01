@@ -51,20 +51,35 @@ class GuestsController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'message' => 'Hospede cadastrado com sucesso'
-        ]);
+        return response()->json($client, 201);
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(GuestsRequests $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        $guestPut = DB::table('guests')->where('id', $id)->update([
+            'name' => $data['name'],
+            'lastname' => $data['lastname'],
+            'phone' => $data['phone'],
+            'updated_at' => now()
+        ]);
+
+        if($guestPut === 0){
+            return response()->json([
+                'message' => 'Falha ao atualizar o hospede'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Hospede atualizado'
+        ], 201);
     }
 
 
     public function destroy(string $id)
     {
-        //
+        
     }
 }
