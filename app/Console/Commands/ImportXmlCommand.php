@@ -29,9 +29,26 @@ class ImportXmlCommand extends Command
             return;
         }
 
+        $orderedFiles = [
+            'hotels.xml',
+            'rooms.xml',
+            'reserves.xml',
+            'coupons.xml',
+            'dailies.xml',
+            'payments.xml',
+            'guests.xml',
+            'reserveGuests.xml',
+            'users.xml'
+        ];
+
+        $files = File::glob($path . '/*.xml');
+
+        $files = array_intersect($orderedFiles, array_map('basename', $files));//pega e ordena os xml na lista orderedFiles
+
         foreach ($files as $file) {
-            $this->importXmlFile($file);
+            $this->importXmlFile($path . '/' . $file);
         }
+
 
         $this->info('XML importado.');
     }
@@ -45,14 +62,16 @@ class ImportXmlCommand extends Command
 
         //importando os xmls
         $this->importHotels($data);
-        $this->importPayments($data);
         $this->importRoom($data);
         $this->importReserves($data);
         $this->importCoupons($data);
         $this->importDailies($data);
+        $this->importPayments($data);
         $this->importGuests($data);
         $this->importReserveGuests($data);
         $this->importUsers($data);
+
+
 
     }
 
