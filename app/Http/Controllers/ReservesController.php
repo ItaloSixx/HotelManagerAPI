@@ -47,7 +47,15 @@ class ReservesController extends Controller
 
     public function show(string $id)
     {
-        
+        $reserve = DB::table('reserves')->where('id', $id)->whereNull('deleted_at')->first();
+
+        if(!$reserve){
+            return response()->json([
+                'message' => 'Reserva não encontrada'
+            ], 500);
+        }
+
+        return response()->json($reserve, 200);
     }
 
 
