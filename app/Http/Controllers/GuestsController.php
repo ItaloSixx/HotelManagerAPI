@@ -80,6 +80,16 @@ class GuestsController extends Controller
 
     public function destroy(string $id)
     {
-        
+        $guest = DB::table('guests')->where('id', $id)->update(['deleted_at' => now()]);
+
+        if(!$guest){
+            return response()->json([
+                'message' => 'Falha ao excluir o hospede'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Hospede exclúido com sucesso'
+        ], 201);
     }
 }
