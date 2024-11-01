@@ -66,7 +66,7 @@ class DailiesController extends Controller
             'updated_at' => now()
         ]);
 
-        if(!$dailyPut){
+        if($dailyPut === 0){
             return response()->json([
                 'message' => 'Diária não atualizada'
             ], 500);
@@ -80,6 +80,18 @@ class DailiesController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $dailyDel = DB::table('dailies')
+                        ->where('id', $id)
+                        ->update(['deleted_at' => now()]);
+
+        if(!$dailyDel){
+            return response()->json([
+                'message' => 'Diária não excluída'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Diária excluída com sucesso'
+        ]);
     }
 }

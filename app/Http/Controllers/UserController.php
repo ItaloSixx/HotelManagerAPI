@@ -74,7 +74,8 @@ class UserController extends Controller
                     'updated_at' => now()
                 ]);
 
-    if ($userPut === 0) {
+    if ($userPut === 0)//verifica o numero de linhas afetadas pela consulta
+    {
         return response()->json([
             'message' => 'Usuário não encontrado ou não atualizado'
         ], 500);
