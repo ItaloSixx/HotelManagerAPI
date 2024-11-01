@@ -17,34 +17,41 @@ class ReservesController extends Controller
         return response()->json($reserves, 201);
     }
 
-
+//em discounts eu preciso estar passando um cupom, verificar se ele é valido e subtrair o valor
     public function store(ReservesRequests $request)
     {
-        $data = $request->validated();//em discounts eu preciso estar passando um cupom, verificar se ele é valido e subtrair o valor
+        $data = $request->validated();
 
         $data['total'] = $this->calcTotal($request);
 
-        $reserve = DB::table('reserves')->insert([
-            'hotelCode' => $data['hotelCode'],
-            'roomCode' => $data['roomCode'],
-            'checkIn' => $data['checkIn'],
-            'checkOut' => $data['checkOut'],
-            'total' => $data['total'],
-            'discounts' => $data['discounts'],
-            'additional_charges' => $data['additional_charges'],
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        $room = DB::table('rooms')->where('id', $data['roomCode'])->first();
 
-        if(!$reserve){
+        if($room->availability > 0)
+        {
+            $reserve = DB::table('reserves')->insert([
+                'hotelCode' => $data['hotelCode'],
+                'roomCode' => $data['roomCode'],
+                'checkIn' => $data['checkIn'],
+                'checkOut' => $data['checkOut'],
+                'total' => $data['total'],
+                'discounts' => $data['discounts'],
+                'additional_charges' => $data['additional_charges'],
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            DB::table('rooms')->where('id', $data['roomCode'])->decrement('availability', 1);
+
             return response()->json([
-                'message' => 'Reserva não realizada'
+                'message' => 'Reserva criada com sucesso'
+            ], 201);
+
+        }else{
+            return response()->json([
+                'message' => 'Falha ao realizar a reserva'
             ], 500);
         }
 
-        return response()->json([
-            'message' => 'Reserva realizada'
-        ], 201);
     }
 
 

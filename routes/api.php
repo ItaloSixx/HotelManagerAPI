@@ -5,7 +5,6 @@ use App\Http\Controllers\DailiesController;
 use App\Http\Controllers\ReserveGuestsController;
 use App\Http\Controllers\ReservesController;
 use App\Http\Controllers\UserController;
-use App\Http\Requests\ReserveGuestsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
