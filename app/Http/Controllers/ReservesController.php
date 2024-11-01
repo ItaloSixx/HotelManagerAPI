@@ -22,8 +22,7 @@ class ReservesController extends Controller
     {
         $data = $request->validated();//em discounts eu preciso estar passando um cupom, verificar se ele é valido e subtrair o valor
 
-        $data['total'] -= $data['discounts'];
-        $data['total'] += $data['additional_charges'];
+        $data['total'] = $this->calcTotal($request);
 
         $reserve = DB::table('reserves')->insert([
             'hotelCode' => $data['hotelCode'],
@@ -69,6 +68,8 @@ class ReservesController extends Controller
     public function update(ReservesRequests $request, string $id)
     {
         $data = $request->validated();
+
+        $data['total'] = $this->calcTotal($request);
 
         $reservePut = DB::table('reserves')->where('id', $id)->update([
             'hotelCode' => $data['hotelCode'],
@@ -117,6 +118,15 @@ class ReservesController extends Controller
                     ->get();
 
         return response()->json($guests, 200);
+    }
+
+    private function calcTotal(ReservesRequests $request){
+        $data = $request->validated();
+
+        $data['total'] -= $data['discounts'];
+        $data['total'] += $data['additional_charges'];
+
+        return $data['total'];
     }
 
 }
