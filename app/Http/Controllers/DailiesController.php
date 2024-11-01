@@ -43,13 +43,21 @@ class DailiesController extends Controller
 
     public function show(string $id)
     {
+        $daily = DB::table('dailies')->where('id', $id)->first();
 
+        if(!$daily){
+            return response()->json([
+                'message' => 'Daily não encontrada'
+            ], 404);
+        }
+
+        return response()->json($id, 201);
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(DailiesRequest $request, string $id)
     {
-        //
+        
     }
 
 
