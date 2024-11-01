@@ -20,7 +20,10 @@ class ReservesController extends Controller
 
     public function store(ReservesRequests $request)
     {
-        $data = $request->validated();
+        $data = $request->validated();//em discounts eu preciso estar passando um cupom, verificar se ele é valido e subtrair o valor
+
+        $data['total'] -= $data['discounts'];
+        $data['total'] += $data['additional_charges'];
 
         $reserve = DB::table('reserves')->insert([
             'hotelCode' => $data['hotelCode'],
