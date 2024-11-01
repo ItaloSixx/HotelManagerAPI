@@ -52,9 +52,18 @@ class ReserveGuestsController extends Controller
         $guests = DB::table('reserve_guests')
                     ->join('guests', 'reserve_guests.guestId', '=', 'guests.id')
                     ->where('reserve_guests.reserveId', $id)
-                    ->select('guests.*')
                     ->get();
 
         return response()->json($guests, 200);
+    }
+
+    public function getReserves($id)
+    {
+    $reserves = DB::table('reserve_guests')
+                ->join('reserves', 'reserve_guests.reserveId', '=', 'reserves.id')
+                ->where('reserve_guests.guestId', $id)
+                ->get();
+
+    return response()->json($reserves, 200);
     }
 }
