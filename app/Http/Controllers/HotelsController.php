@@ -20,7 +20,9 @@ class HotelsController extends Controller
         $data = $request->validate();
 
         $hotelAdd = DB::table('hotels')->insert([
-            'name' => $data['name']
+            'name' => $data['name'],
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
         if(!$hotelAdd){
@@ -50,7 +52,23 @@ class HotelsController extends Controller
 
     public function update(HotelsRequests $request, string $id)
     {
-        
+        $data = $request->validated();
+
+        $hotelPut = DB::table('hotels')->update([
+            'name' => $data['name'],
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        if(!$hotelPut){
+            return response()->json([
+                'message' => 'Falha ao atualizar hotel'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Hotel atualizado com sucesso'
+        ], 201);
     }
 
 
