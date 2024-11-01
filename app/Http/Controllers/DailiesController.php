@@ -57,7 +57,24 @@ class DailiesController extends Controller
 
     public function update(DailiesRequest $request, string $id)
     {
-        
+        $data = $request->validated();
+
+        $dailyPut = DB::table('dailies')->where('id', $id)->update([
+            'reserveId' => $data['reserveId'],
+            'date' => $data['date'],
+            'value' => $data['value'],
+            'updated_at' => now()
+        ]);
+
+        if(!$dailyPut){
+            return response()->json([
+                'message' => 'Diária não atualizada'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Diária atualizada com sucesso'
+        ], 201);
     }
 
 
