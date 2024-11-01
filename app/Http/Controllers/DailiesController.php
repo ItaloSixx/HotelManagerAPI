@@ -51,7 +51,7 @@ class DailiesController extends Controller
             ], 404);
         }
 
-        return response()->json($id, 201);
+        return response()->json($daily, 201);
     }
 
 

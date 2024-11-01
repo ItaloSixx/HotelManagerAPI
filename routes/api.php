@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CouponsController;
+use App\Http\Controllers\DailiesController;
 use App\Http\Controllers\ReservesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -19,5 +20,6 @@ Route::get('/status', function(){
 Route::apiResource('users', UserController::class);
 Route::apiResource('coupons', CouponsController::class);
 Route::apiResource('reserves', ReservesController::class);
+Route::apiResource('dailies', DailiesController::class);
 Route::get('/reserves/getGuests/{id}', [ReservesController::class, 'getGuests'])->name('getGuests');
 
