@@ -9,7 +9,7 @@ class RoomRequests extends FormRequest
 
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
 
@@ -17,7 +17,7 @@ class RoomRequests extends FormRequest
     {
         return [
             'hotelCode' => 'required|integer|exists:hotels,id',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string',
             'availability' => 'required|integer|min:0',
         ];
     }

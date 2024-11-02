@@ -33,6 +33,10 @@ class RoomController extends Controller
                 'message' => 'Falha ao criar quarto'
             ], 500);
         }
+
+        return response()->json([
+            'message' => 'Quarto cadastrado com sucesso'
+        ], 201);
     }
 
 
@@ -61,7 +65,7 @@ class RoomController extends Controller
             'updated_at' => now()
         ]);
 
-        if (!$roomPut) {
+        if ($roomPut === 0) {
             return response()->json([
                 'message' => 'Falha ao atualizar quarto'
             ], 500);
