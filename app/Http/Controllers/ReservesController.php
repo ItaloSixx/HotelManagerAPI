@@ -17,14 +17,18 @@ class ReservesController extends Controller
         return response()->json($reserves, 201);
     }
 
-//em discounts eu preciso estar passando um cupom, verificar se ele é valido e subtrair o valor
     public function store(ReservesRequests $request)
     {
         $data = $request->validated();
 
-        $data['total'] = $this->calcTotal($request);
+        $discountValue = $this->validatedCoupon($data['coupon'] ?? null);
+
+        $data['total'] = $this->calcTotal($data, $discountValue);
 
         $room = DB::table('rooms')->where('id', $data['roomCode'])->first();
+        if(!$room) {
+            return response()->json(['message' => 'Quarto não encontrado'], 404);
+        }
 
         if($room->availability > 0)
         {
@@ -34,25 +38,25 @@ class ReservesController extends Controller
                 'checkIn' => $data['checkIn'],
                 'checkOut' => $data['checkOut'],
                 'total' => $data['total'],
-                'discounts' => $data['discounts'],
+                'discounts' => $discountValue,
                 'additional_charges' => $data['additional_charges'],
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
 
+            if (!$reserve) {
+                return response()->json(['message' => 'Falha ao inserir a reserva'], 500);
+            }
+
             DB::table('rooms')->where('id', $data['roomCode'])->decrement('availability', 1);
 
-            return response()->json([
-                'message' => 'Reserva criada com sucesso'
-            ], 201);
+            return response()->json(['message' => 'Reserva criada com sucesso'], 201);
+        } else {
+            return response()->json(['message' => 'Quarto indisponível'], 500);
 
-        }else{
-            return response()->json([
-                'message' => 'Falha ao realizar a reserva'
-            ], 500);
         }
-
     }
+
 
 
     public function show(string $id)
@@ -76,7 +80,9 @@ class ReservesController extends Controller
     {
         $data = $request->validated();
 
-        $data['total'] = $this->calcTotal($request);
+        $discountValue = $this->validatedCoupon($data['coupon'] ?? null);
+
+        $data['total'] = $this->calcTotal($data, $discountValue);
 
         $reservePut = DB::table('reserves')->where('id', $id)->update([
             'hotelCode' => $data['hotelCode'],
@@ -84,7 +90,7 @@ class ReservesController extends Controller
             'checkIn' => $data['checkIn'],
             'checkOut' => $data['checkOut'],
             'total' => $data['total'],
-            'discounts' => $data['discounts'],
+            'discounts' => $data['coupon'],
             'additional_charges' => $data['additional_charges'],
             'updated_at' => now()
         ]);
@@ -116,14 +122,27 @@ class ReservesController extends Controller
         ], 201);
     }
 
+    private function validatedCoupon($cuponCode){
+        $discountValue = 0;
+        if($cuponCode){
+            $coupon = DB::table('coupons')->where('code', $cuponCode)->first();
+            if(!$coupon){
+                abort(404, 'Cupom inválido');
+            }
+            $discountValue = $coupon->discount_value;
+        }
 
-    private function calcTotal(ReservesRequests $request){
-        $data = $request->validated();
-
-        $data['total'] -= $data['discounts'];
-        $data['total'] += $data['additional_charges'];
-
-        return $data['total'];
+        return $discountValue;
     }
 
+
+    private function calcTotal(array $data, $discountValue)
+    {
+        $total = $data['total'] - $discountValue;
+        $total += $data['additional_charges'];
+
+        return $total;
+    }
 }
+
+
