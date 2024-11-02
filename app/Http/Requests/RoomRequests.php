@@ -16,7 +16,9 @@ class RoomRequests extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'hotelCode' => 'required|integer|exists:hotels,id',
+            'name' => 'required|string|max:255',
+            'availability' => 'required|integer|min:0',
         ];
     }
 }

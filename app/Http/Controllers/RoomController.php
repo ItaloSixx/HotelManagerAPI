@@ -38,7 +38,15 @@ class RoomController extends Controller
 
     public function show(string $id)
     {
-        //
+        $room = DB::table('rooms')->where('id', $id)->first();
+
+        if (!$room) {
+            return response()->json([
+                'message' => 'Quarto não encontrado'
+            ], 404);
+        }
+
+        return response()->json($room, 200);
     }
 
 
