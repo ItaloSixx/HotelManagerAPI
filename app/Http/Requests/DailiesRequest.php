@@ -21,4 +21,18 @@ class DailiesRequest extends FormRequest
             'value' => 'required|numeric|min:0'
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'reserveId.required' => 'O campo ID da reserva é obrigatório.',
+            'reserveId.exists' => 'A reserva fornecida não existe.',
+            'date.required' => 'O campo data é obrigatório.',
+            'date.date' => 'A data fornecida não é válida.',
+            'value.required' => 'O campo valor é obrigatório.',
+            'value.numeric' => 'O valor deve ser numérico.',
+            'value.min' => 'O valor deve ser no mínimo 0.',
+        ];
+    }
+
 }
