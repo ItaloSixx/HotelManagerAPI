@@ -21,4 +21,14 @@ class GuestsRequests extends FormRequest
             'phone' => 'required|numeric'
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'O campo nome é obrigatório.',
+            'lastname.required' => 'O campo sobrenome é obrigatório.',
+            'phone.required' => 'O campo telefone é obrigatório.',
+            'phone.numeric' => 'O telefone deve ser numérico.',
+        ];
+    }
+
 }
