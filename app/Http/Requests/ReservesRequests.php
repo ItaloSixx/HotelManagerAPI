@@ -42,9 +42,7 @@ class ReservesRequests extends FormRequest
         'total.required' => 'O campo total é obrigatório.',
         'total.numeric' => 'O total deve ser numérico.',
         'total.min' => 'O total deve ser no mínimo 0.',
-        'discounts.nullable' => 'O campo descontos é opcional.',
         'discounts.string' => 'O campo descontos deve ser uma string.',
-        'additional_charges.nullable' => 'O campo cobranças adicionais é opcional.',
         'additional_charges.numeric' => 'As cobranças adicionais devem ser numéricas.',
         'additional_charges.min' => 'As cobranças adicionais devem ser no mínimo 0.'
     ];
