@@ -52,7 +52,24 @@ class RoomController extends Controller
 
     public function update(RoomRequests $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        $roomPut = DB::table('rooms')->where('id', $id)->update([
+            'hotelCode' => $data['hotelCode'],
+            'name' => $data['name'],
+            'availability' => $data['availability'],
+            'updated_at' => now()
+        ]);
+
+        if (!$roomPut) {
+            return response()->json([
+                'message' => 'Falha ao atualizar quarto'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Quarto atualizado com sucesso'
+        ]);
     }
 
 
