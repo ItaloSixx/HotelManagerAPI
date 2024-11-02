@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CouponsController;
 use App\Http\Controllers\DailiesController;
 use App\Http\Controllers\GuestsController;
@@ -20,7 +21,7 @@ Route::get('/status', function(){
 
     ],
     200);
-});
+})->middleware('auth:sanctum');
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('coupons', CouponsController::class);
@@ -34,5 +35,8 @@ Route::post('/reserves/{reserveId}/addGuest', [ReserveGuestsController::class, '
 Route::get('/reserves/{reserveId}/getGuest', [ReserveGuestsController::class, 'getGuests'])->name('getGuests');
 Route::get('/reserves/{guestId}/getReserve', [ReserveGuestsController::class, 'getReserves'])->name('getReserve');
 Route::delete('/reserves/{reserveId}/{guestId}/rmvGuest', [ReserveGuestsController::class, 'rmvGuest'])->name('rmvGuest');
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 
