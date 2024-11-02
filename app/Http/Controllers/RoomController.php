@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\RoomRequests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class RoomController extends Controller
+{
+
+    public function index()
+    {
+        $rooms = DB::table('rooms')->get();
+
+        return response()->json($rooms, 200);
+    }
+
+    public function store(RoomRequests $request)
+    {
+        $data = $request->validated();
+
+        $roomAdd = DB::table('rooms')->insert([
+            'hotelCode' => $data['hotelCode'],
+            'name' => $data['name'],
+            'availability' => $data['availability'],
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        if (!$roomAdd) {
+            return response()->json([
+                'message' => 'Falha ao criar quarto'
+            ], 500);
+        }
+    }
+
+
+    public function show(string $id)
+    {
+        //
+    }
+
+
+    public function update(RoomRequests $request, string $id)
+    {
+        //
+    }
+
+
+    public function destroy(string $id)
+    {
+        //
+    }
+}
