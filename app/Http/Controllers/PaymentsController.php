@@ -46,7 +46,7 @@ class PaymentsController extends Controller
 
         if(!$payment){
             return response()->json([
-                'message' => 'Falha ao criar pagamento'
+                'message' => 'Falha ao buscar pagamento'
             ], 500);
         }
 
@@ -54,13 +54,40 @@ class PaymentsController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(PaymentsRequest $request, string $id)
     {
-        //
+        $$data = $request->validated();
+
+        $paymentPut = DB::table('payments')->where('id', $id)->update([
+            'reserveId' => $data['reserveId'],
+            'value' => $data['value'],
+            'method' => $data['method'],
+            'paid' => $data['paid']
+        ]);
+
+        if(!$paymentPut){
+            return response()->json([
+                'message' => 'Falha ao atualizar pagamento'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Pagamento atualizado com sucesso'
+        ]);
     }
 
     public function destroy(string $id)
     {
-        //
+        $paymentDel = DB::table('payments')->where('id', $id)->delete();
+
+        if(!$paymentDel){
+            return response()->json([
+                'message' => 'Falha ao excluir pagamento'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Pagamento excluído com sucesso'
+        ]);
     }
 }
