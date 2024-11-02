@@ -75,6 +75,16 @@ class RoomController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $roomDel = DB::table('rooms')->where('id', $id)->delete();
+
+        if (!$roomDel) {
+            return response()->json([
+                'message' => 'Falha ao excluir quarto'
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Quarto excluído com sucesso'
+        ]);
     }
 }
