@@ -9,14 +9,14 @@ class PaymentsRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
 
     public function rules(): array
     {
         return [
-            'reserveId' => 'require|exists:reserves,id',
+            'reserveId' => 'required|exists:reserves,id',
             'value' => 'required|numeric|min:0|',
             'method' => 'required|string',
             'paid' => 'required|boolean'

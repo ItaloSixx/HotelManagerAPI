@@ -56,7 +56,7 @@ class PaymentsController extends Controller
 
     public function update(PaymentsRequest $request, string $id)
     {
-        $$data = $request->validated();
+        $data = $request->validated();
 
         $paymentPut = DB::table('payments')->where('id', $id)->update([
             'reserveId' => $data['reserveId'],
