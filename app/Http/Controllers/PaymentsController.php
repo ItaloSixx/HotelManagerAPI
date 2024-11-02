@@ -42,7 +42,15 @@ class PaymentsController extends Controller
 
     public function show(string $id)
     {
-        //
+        $payment = DB::table('payments')->where('id', $id)->first();
+
+        if(!$payment){
+            return response()->json([
+                'message' => 'Falha ao criar pagamento'
+            ], 500);
+        }
+
+        return response()->json($payment, 201);
     }
 
 
