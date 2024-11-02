@@ -17,12 +17,21 @@ class ReservesController extends Controller
         return response()->json($reserves, 201);
     }
 
-//em discounts eu preciso estar passando um cupom, verificar se ele é valido e subtrair o valor
     public function store(ReservesRequests $request)
     {
         $data = $request->validated();
 
-        $data['total'] = $this->calcTotal($request);
+        $discountValue = 0;
+        if(isset($data['discounts'])){
+            $coupon = DB::table('coupons')->where('code', $data['discounts'])->first();
+            if(!$coupon){
+                return response()->json([
+                    'message' => 'upom inválido'
+                ], 404);
+            }
+            $discountValue = $coupon->discount_value;
+
+        $data['total'] = $this->calcTotal($request, $discountValue);
 
         $room = DB::table('rooms')->where('id', $data['roomCode'])->first();
 
@@ -46,12 +55,13 @@ class ReservesController extends Controller
                 'message' => 'Reserva criada com sucesso'
             ], 201);
 
-        }else{
-            return response()->json([
-                'message' => 'Falha ao realizar a reserva'
-            ], 500);
-        }
+            }else{
+                return response()->json([
+                    'message' => 'Falha ao realizar a reserva'
+                ], 500);
+            }
 
+        }
     }
 
 
@@ -76,7 +86,7 @@ class ReservesController extends Controller
     {
         $data = $request->validated();
 
-        $data['total'] = $this->calcTotal($request);
+        $data['total'] = $this->calcTotal($request, );
 
         $reservePut = DB::table('reserves')->where('id', $id)->update([
             'hotelCode' => $data['hotelCode'],
@@ -117,13 +127,15 @@ class ReservesController extends Controller
     }
 
 
-    private function calcTotal(ReservesRequests $request){
+    private function calcTotal(ReservesRequests $request, $discountValue)
+    {
         $data = $request->validated();
 
-        $data['total'] -= $data['discounts'];
-        $data['total'] += $data['additional_charges'];
+        $total = $data['total'] - $discountValue;
+        $total += $data['additional_charges'];
 
-        return $data['total'];
+        return $total;
     }
+
 
 }
