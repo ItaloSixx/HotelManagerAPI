@@ -8,15 +8,44 @@ use Illuminate\Support\Facades\DB;
 
 class ReservesController extends Controller
 {
-
+    /**
+     * @OA\Get(
+     *     path="/api/reserves",
+     *     tags={"Reserves"},
+     *     summary="Lista todas as reservas",
+     *     @OA\Response(response=200, description="Lista de reservas")
+     * )
+     */
     public function index()
     {
-        //tratar com if se der false
         $reserves = DB::table('reserves')->whereNull('deleted_at')->get();
 
         return response()->json($reserves, 201);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/reserves",
+     *     tags={"Reserves"},
+     *     summary="Cadastra uma nova reserva",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"hotelCode","roomCode","checkIn","checkOut","total"},
+     *             @OA\Property(property="hotelCode", type="string", example="H123"),
+     *             @OA\Property(property="roomCode", type="string", example="R456"),
+     *             @OA\Property(property="checkIn", type="string", format="date", example="2023-04-01"),
+     *             @OA\Property(property="checkOut", type="string", format="date", example="2023-04-05"),
+     *             @OA\Property(property="total", type="number", format="float", example=1000.00),
+     *             @OA\Property(property="coupon", type="string", example="DISCOUNT10"),
+     *             @OA\Property(property="additional_charges", type="number", format="float", example=50.00)
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Reserva criada com sucesso"),
+     *     @OA\Response(response=500, description="Falha ao criar a reserva"),
+     *     @OA\Response(response=404, description="Quarto não encontrado")
+     * )
+     */
     public function store(ReservesRequests $request)
     {
         $data = $request->validated();
@@ -57,8 +86,21 @@ class ReservesController extends Controller
         }
     }
 
-
-
+    /**
+     * @OA\Get(
+     *     path="/api/reserves/{id}",
+     *     tags={"Reserves"},
+     *     summary="Exibe os detalhes de uma reserva específica",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Detalhes da reserva"),
+     *     @OA\Response(response=404, description="Reserva não encontrada")
+     * )
+     */
     public function show(string $id)
     {
         $reserve = DB::table('reserves')
@@ -75,7 +117,34 @@ class ReservesController extends Controller
         return response()->json($reserve, 200);
     }
 
-
+    /**
+     * @OA\Put(
+     *     path="/api/reserves/{id}",
+     *     tags={"Reserves"},
+     *     summary="Atualiza uma reserva",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"hotelCode","roomCode","checkIn","checkOut","total"},
+     *             @OA\Property(property="hotelCode", type="string", example="H123"),
+     *             @OA\Property(property="roomCode", type="string", example="R456"),
+     *             @OA\Property(property="checkIn", type="string", format="date", example="2023-04-01"),
+     *             @OA\Property(property="checkOut", type="string", format="date", example="2023-04-05"),
+     *             @OA\Property(property="total", type="number", format="float", example=1000.00),
+     *             @OA\Property(property="coupon", type="string", example="DISCOUNT10"),
+     *             @OA\Property(property="additional_charges", type="number", format="float", example=50.00)
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Reserva atualizada com sucesso"),
+     *     @OA\Response(response=500, description="Falha ao atualizar a reserva")
+     * )
+     */
     public function update(ReservesRequests $request, string $id)
     {
         $data = $request->validated();
@@ -106,7 +175,21 @@ class ReservesController extends Controller
         ], 201);
     }
 
-
+    /**
+     * @OA\Delete(
+     *     path="/api/reserves/{id}",
+     *     tags={"Reserves"},
+     *     summary="Exclui uma reserva",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Reserva excluída com sucesso"),
+     *     @OA\Response(response=500, description="Falha ao excluir a reserva")
+     * )
+     */
     public function destroy(string $id)
     {
         $reserve = DB::table('reserves')->where('id', $id)->update(['deleted_at'=> now()]);
@@ -135,7 +218,6 @@ class ReservesController extends Controller
         return $discountValue;
     }
 
-
     private function calcTotal(array $data, $discountValue)
     {
         $total = $data['total'] - $discountValue;
@@ -144,5 +226,3 @@ class ReservesController extends Controller
         return $total;
     }
 }
-
-

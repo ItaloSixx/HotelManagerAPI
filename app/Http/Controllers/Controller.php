@@ -7,8 +7,8 @@ use OpenApi\Annotations as OA;
  * @OA\Server(url="http://localhost/api/"),
  * @OA\Info(
  *      version="1.0.0",
- *      title="L5 OpenApi",
- *      description="L5 Swagger OpenApi description",
+ *      title="Api Hotel",
+ *      description="API para gerenciar as atividades de hoteis",
  *      @OA\Contact(
  *          email="italojefer55@gmail.com"
  *      ),
@@ -17,6 +17,7 @@ use OpenApi\Annotations as OA;
  *         url="https://www.apache.org/licenses/LICENSE-2.0.html"
  *     )
  * ),
+ *
  *
  */
 

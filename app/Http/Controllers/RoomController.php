@@ -8,7 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
-
+    /**
+     * @OA\Get(
+     *     path="/api/rooms",
+     *     tags={"Rooms"},
+     *     summary="Lista todos os quartos",
+     *     @OA\Response(response=200, description="Lista de quartos")
+     * )
+     */
     public function index()
     {
         $rooms = DB::table('rooms')->get();
@@ -16,6 +23,24 @@ class RoomController extends Controller
         return response()->json($rooms, 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/rooms",
+     *     tags={"Rooms"},
+     *     summary="Cadastra um novo quarto",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"hotelCode","name","availability"},
+     *             @OA\Property(property="hotelCode", type="string", example="H123"),
+     *             @OA\Property(property="name", type="string", example="Suite Deluxe"),
+     *             @OA\Property(property="availability", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Quarto cadastrado com sucesso"),
+     *     @OA\Response(response=500, description="Falha ao criar quarto")
+     * )
+     */
     public function store(RoomRequests $request)
     {
         $data = $request->validated();
@@ -39,7 +64,21 @@ class RoomController extends Controller
         ], 201);
     }
 
-
+    /**
+     * @OA\Get(
+     *     path="/api/rooms/{id}",
+     *     tags={"Rooms"},
+     *     summary="Exibe os detalhes de um quarto específico",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Detalhes do quarto"),
+     *     @OA\Response(response=404, description="Quarto não encontrado")
+     * )
+     */
     public function show(string $id)
     {
         $room = DB::table('rooms')->where('id', $id)->first();
@@ -53,7 +92,30 @@ class RoomController extends Controller
         return response()->json($room, 200);
     }
 
-
+    /**
+     * @OA\Put(
+     *     path="/api/rooms/{id}",
+     *     tags={"Rooms"},
+     *     summary="Atualiza um quarto",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"hotelCode","name","availability"},
+     *             @OA\Property(property="hotelCode", type="string", example="H123"),
+     *             @OA\Property(property="name", type="string", example="Suite Deluxe"),
+     *             @OA\Property(property="availability", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Quarto atualizado com sucesso"),
+     *     @OA\Response(response=500, description="Falha ao atualizar quarto")
+     * )
+     */
     public function update(RoomRequests $request, string $id)
     {
         $data = $request->validated();
@@ -76,7 +138,21 @@ class RoomController extends Controller
         ]);
     }
 
-
+    /**
+     * @OA\Delete(
+     *     path="/api/rooms/{id}",
+     *     tags={"Rooms"},
+     *     summary="Exclui um quarto",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Quarto excluído com sucesso"),
+     *     @OA\Response(response=500, description="Falha ao excluir quarto")
+     * )
+     */
     public function destroy(string $id)
     {
         $roomDel = DB::table('rooms')->where('id', $id)->delete();
