@@ -21,7 +21,7 @@ class ReservesRequests extends FormRequest
             'checkIn' => 'required|date|after_or_equal:today',
             'checkOut' => 'required|date|after:checkIn',
             'total' => 'required|numeric|min:0',
-            'discounts' => 'nullable|numeric|min:0',
+            'discounts' => 'nullable|string',
             'additional_charges' => 'nullable|numeric|min:0'
         ];
     }
