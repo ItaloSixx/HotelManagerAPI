@@ -20,4 +20,6 @@ class CouponRequest extends FormRequest
             'discount_value' => 'required'
         ];
     }
+
+    
 }
