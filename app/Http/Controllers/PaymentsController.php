@@ -65,7 +65,7 @@ class PaymentsController extends Controller
             'paid' => $data['paid']
         ]);
 
-        if(!$paymentPut){
+        if($paymentPut === 0){
             return response()->json([
                 'message' => 'Falha ao atualizar pagamento'
             ], 500);
