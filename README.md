@@ -80,7 +80,7 @@ que o modelo do banco deixou explicito, portanto há várias funcionalidades nã
 
 
 ### Estrutura Principal
-![Modelo do banco de dados](./Arquivos/)
+![Modelo do banco de dados](./Arquivos/HOTEL_DB.png)
 
 
 O sistema possui rotas REST para todas as entidades do banco de dados, permitindo operações CRUD em:
