@@ -108,32 +108,32 @@ O sistema possui rotas REST para todas as entidades do banco de dados, permitind
 
 ## ⚙️ Instalação e Configuração
 
-###1. Clone o repositório:
+### 1. Clone o repositório:
 ```bash
 https://github.com/ItaloSixx/API_HOTEL_LARAVEL
 ```
-###2. Adicionando o XML
+### 2. Adicionando o XML
   1. Crie uma pasta chamada `xml` no diretório `/storage/app/`.
   2. Baixe os arquivos XML disponíveis [aqui](/Arquivos/xml) e copie-os para a pasta `/storage/app/xml`.
 
-###3. Construa a imagem Docker:
+### 3. Construa a imagem Docker:
 ```bash
 docker build -t php_app /caminho/da/Imagen/api_hotel
 ```
 
-###4. Inicie os containers:
+### 4. Inicie os containers:
 ```bash
 docker-compose up -d
 ```
 
-###5. Acesse o container e execute os seguintes comandos:
+### 5. Acesse o container e execute os seguintes comandos:
 ```bash
 composer install
 php artisan migrate
 php artisan import:xml
 ```
 
-###6. Para parar os containers:
+### 6. Para parar os containers:
 ```bash
 docker-compose down
 ```
