@@ -20,7 +20,7 @@ Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de
 
 ## 🏆 Diferenciais Atendidos
 
-### Documentação Utilizando Swagger / OpenAPI 3.0
+### Documentação Utilizando Swagger
 - A documentação da API foi desenvolvida utilizando Swagger.
 
 ### 📐 Padrões de Projeto
