@@ -50,7 +50,7 @@ class ReservesController extends Controller
     {
         $data = $request->validated();
 
-        $discountValue = $this->validatedCoupon($data['coupon'] ?? null);
+        $discountValue = $this->validatedCoupon($data['coupons'] ?? null);
 
         $data['total'] = $this->calcTotal($data, $discountValue);
 
@@ -149,7 +149,7 @@ class ReservesController extends Controller
     {
         $data = $request->validated();
 
-        $discountValue = $this->validatedCoupon($data['coupon'] ?? null);
+        $discountValue = $this->validatedCoupon($data['coupons'] ?? null);
 
         $data['total'] = $this->calcTotal($data, $discountValue);
 
@@ -159,7 +159,7 @@ class ReservesController extends Controller
             'checkIn' => $data['checkIn'],
             'checkOut' => $data['checkOut'],
             'total' => $data['total'],
-            'discounts' => $data['coupon'],
+            'discounts' => $discountValue,
             'additional_charges' => $data['additional_charges'],
             'updated_at' => now()
         ]);

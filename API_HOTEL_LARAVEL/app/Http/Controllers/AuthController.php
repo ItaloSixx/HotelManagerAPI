@@ -9,7 +9,7 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/api/login",
-     *     tags={"Autenticação"},
+     *     tags={"Auth"},
      *     summary="Realiza o login do usuário",
      *     @OA\RequestBody(
      *         required=true,
@@ -49,7 +49,7 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/api/logout",
-     *     tags={"Autenticação"},
+     *     tags={"Auth  "},
      *     summary="Realiza o logout do usuário",
      *     @OA\Response(response=200, description="Deslogado com sucesso")
      * )

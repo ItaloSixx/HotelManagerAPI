@@ -21,7 +21,7 @@ class ReservesRequests extends FormRequest
                 'checkIn' => 'required|date|after_or_equal:today',
                 'checkOut' => 'nullable|date|after:checkIn',
                 'total' => 'required|numeric|min:0',
-                'discounts' => 'nullable|string',
+                'coupons' => 'nullable|string',
                 'additional_charges' => 'nullable|numeric|min:0'
             ];
     }
@@ -42,7 +42,7 @@ class ReservesRequests extends FormRequest
         'total.required' => 'O campo total é obrigatório.',
         'total.numeric' => 'O total deve ser numérico.',
         'total.min' => 'O total deve ser no mínimo 0.',
-        'discounts.string' => 'O campo descontos deve ser uma string.',
+        'coupons.string' => 'O campo descontos deve ser uma string.',
         'additional_charges.numeric' => 'As cobranças adicionais devem ser numéricas.',
         'additional_charges.min' => 'As cobranças adicionais devem ser no mínimo 0.'
     ];
