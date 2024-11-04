@@ -104,6 +104,7 @@ docker-compose down
 Durante o desenvolvimento deste projeto, notei um comportamento inesperado com as rotas. Após realizar testes em diferentes máquinas, descobri que era necessário incluir "/public" antes de todas as rotas para que elas funcionassem corretamente. Por exemplo:
 
 Antes: /api/login
+
 Agora: /public/api/login
 
 Portanto, se a forma convencional (sem o /public) não funcionar, por favor, adicione "/public" ao início das rotas.
@@ -119,6 +120,7 @@ Crie um usuário com papel de admin ou receptionist.
 
 #Login e Token:
 Realize o login, copie o token de autenticação gerado e inclua-o nas variáveis de ambiente.
+
 
 ### Rotas Públicas
 ```bash
