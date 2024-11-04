@@ -103,8 +103,9 @@ docker-compose down
 
 Durante o desenvolvimento deste projeto, notei um comportamento inesperado com as rotas. Após realizar testes em diferentes máquinas, descobri que era necessário incluir "/public" antes de todas as rotas para que elas funcionassem corretamente. Por exemplo:
 
-#Antes: /api/login
-#Agora: /public/api/login
+Antes: /api/login
+Agora: /public/api/login
+
 Portanto, se a forma convencional (sem o /public) não funcionar, por favor, adicione "/public" ao início das rotas.
 
 #Configuração do Ambiente
