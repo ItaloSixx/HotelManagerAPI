@@ -147,7 +147,7 @@ Portanto, se a forma convencional (sem o `/public`) não funcionar, por favor, a
 
 ## Importação Automática de Dados XML via CRON
 
-O processo de importação de dados XML é configurado para ser executado automaticamente diariamente via CRON. Esse agendamento diário permite que os dados sejam importados de forma automatizada, sem a necessidade de intervenção manual. Durante cada execução, são gerados logs de acompanhamento no arquivo `laravel.log`, localizado no diretório `./storage/logs/laravel.log`, permitindo monitoramento e identificação de possíveis erros.
+O processo de importação de dados XML é configurado para ser executado automaticamente diariamente via CRON. Esse agendamento diário permite que os dados sejam importados de forma automatizada, sem a necessidade de intervenção manual.
 
 ### Configuração do CRON
 
