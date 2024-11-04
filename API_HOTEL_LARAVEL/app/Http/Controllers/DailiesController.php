@@ -15,12 +15,7 @@ class DailiesController extends Controller
      *     tags={"Dailies"},
      *     summary="Lista todas as diárias",
      *     @OA\Response(response=200, description="Lista de diárias"),
-     *     @OA\Parameter(
-     *         name="Authorization",
-     *         in="header",
-     *         required=true,
-     *         description="Acesso permitido para administradores e recepcionistas"
-     *     )
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function index()
@@ -39,6 +34,7 @@ class DailiesController extends Controller
      *     path="/api/dailies",
      *     tags={"Dailies"},
      *     summary="Cadastra uma nova diária",
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -50,12 +46,7 @@ class DailiesController extends Controller
      *     ),
      *     @OA\Response(response=201, description="Diária cadastrada com sucesso"),
      *     @OA\Response(response=500, description="Diária não cadastrada"),
-     *     @OA\Parameter(
-     *         name="Authorization",
-     *         in="header",
-     *         required=true,
-     *         description="Acesso permitido para administradores e recepcionistas"
-     *     )
+     *
      * )
      */
     public function store(DailiesRequest $request)
@@ -95,12 +86,7 @@ class DailiesController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Detalhes da diária"),
      *     @OA\Response(response=404, description="Diária não encontrada"),
-     *     @OA\Parameter(
-     *         name="Authorization",
-     *         in="header",
-     *         required=true,
-     *         description="Acesso permitido para administradores e recepcionistas"
-     *     )
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function show(string $id)
@@ -141,12 +127,7 @@ class DailiesController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Diária atualizada com sucesso"),
      *     @OA\Response(response=500, description="Diária não atualizada"),
-     *     @OA\Parameter(
-     *         name="Authorization",
-     *         in="header",
-     *         required=true,
-     *         description="Acesso permitido para administradores e recepcionistas"
-     *     )
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function update(DailiesRequest $request, string $id)
@@ -185,12 +166,7 @@ class DailiesController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Diária excluída com sucesso"),
      *     @OA\Response(response=500, description="Diária não excluída"),
-     *     @OA\Parameter(
-     *         name="Authorization",
-     *         in="header",
-     *         required=true,
-     *         description="Acesso permitido para administradores e recepcionistas"
-     *     )
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function destroy(string $id)

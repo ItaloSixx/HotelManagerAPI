@@ -15,7 +15,7 @@ class PaymentsController extends Controller
      *     tags={"Payments"},
      *     summary="Lista todos os pagamentos",
      *     @OA\Response(response=200, description="Lista de pagamentos"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function index()
@@ -46,7 +46,7 @@ class PaymentsController extends Controller
      *     ),
      *     @OA\Response(response=201, description="Pagamento criado com sucesso"),
      *     @OA\Response(response=500, description="Falha ao criar pagamento"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function store(PaymentsRequest $request)
@@ -85,7 +85,7 @@ class PaymentsController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Detalhes do pagamento"),
      *     @OA\Response(response=404, description="Falha ao buscar pagamento"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function show(string $id)
@@ -127,7 +127,7 @@ class PaymentsController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Pagamento atualizado com sucesso"),
      *     @OA\Response(response=500, description="Falha ao atualizar pagamento"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function update(PaymentsRequest $request, string $id)
@@ -166,7 +166,7 @@ class PaymentsController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Pagamento excluído com sucesso"),
      *     @OA\Response(response=500, description="Falha ao excluir pagamento"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores e recepcionistas",
      * )
      */
     public function destroy(string $id)

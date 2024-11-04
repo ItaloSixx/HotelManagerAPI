@@ -15,7 +15,7 @@ class HotelsController extends Controller
      *     tags={"Hotels"},
      *     summary="Lista todos os hotéis",
      *     @OA\Response(response=200, description="Lista de hotéis"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores",
      * )
      */
     public function index()
@@ -43,7 +43,7 @@ class HotelsController extends Controller
      *     ),
      *     @OA\Response(response=201, description="Hotel cadastrado com sucesso"),
      *     @OA\Response(response=500, description="Falha ao cadastrar hotel"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores",
      * )
      */
     public function store(HotelsRequests $request)
@@ -81,7 +81,7 @@ class HotelsController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Detalhes do hotel"),
      *     @OA\Response(response=404, description="Hotel não encontrado"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores",
      * )
      */
     public function show(string $id)
@@ -120,7 +120,7 @@ class HotelsController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Hotel atualizado com sucesso"),
      *     @OA\Response(response=500, description="Falha ao atualizar hotel"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores",
      * )
      */
     public function update(HotelsRequests $request, string $id)
@@ -157,7 +157,7 @@ class HotelsController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Hotel excluído com sucesso"),
      *     @OA\Response(response=500, description="Falha ao apagar hotel"),
-     *     @OA\Description("Acesso permitido para administradores e recepcionistas.")
+     *     description="Acesso permitido para administradores",
      * )
      */
     public function destroy(string $id)

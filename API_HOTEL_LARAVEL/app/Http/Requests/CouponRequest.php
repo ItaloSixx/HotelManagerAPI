@@ -26,7 +26,7 @@ class CouponRequest extends FormRequest
         return [
             'code.required' => 'O campo código é obrigatório.',
             'code.string' => 'O código deve ser uma string.',
-            'code.unique' => 'Este código já está em uso.',
+            'code.unique' => 'Este código já existe.',
             'discount_value.required' => 'O campo valor do desconto é obrigatório.',
             'discount_value.numeric' => 'O valor do desconto deve ser numérico.',
             'discount_value.min' => 'O valor do desconto deve ser no mínimo 0.'

@@ -59,7 +59,7 @@ class AuthController extends Controller
      *     tags={"Auth"},
      *     summary="Realiza o logout do usuário",
      *     @OA\Response(response=200, description="Deslogado com sucesso"),
-     *     description="Acesso permitido para todos os usuários"
+     *     description="Acesso permitido para usuários logados",
      * )
      */
     public function logout(AuthRequests $request)
