@@ -59,11 +59,8 @@ http://seu-caminho/public/api/documentation
 ## 🔒 Segurança
 
 - Autenticação via Laravel Sanctum
-- Proteção contra CSRF
 - Validação de dados em todas as requisições
 - Middleware de autorização por função
-- Sanitização de inputs
-- Rate Limiting para prevenção de ataques de força bruta
 
 ## 📦 Pré-requisitos
 
