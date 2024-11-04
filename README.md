@@ -35,8 +35,9 @@ Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de
 - Utilização apropriada de verbos HTTP (GET, POST, PUT, DELETE) para garantir a semântica correta nas requisições e operações.
 
 ### 🔒 Segurança
-- Medidas de segurança foram implementadas, incluindo proteção contra vulnerabilidades comuns, autenticação segura e logs de auditoria.
-- O uso de sanctum para autenticação de usuários garante que apenas acessos autorizados possam interagir com a API.
+- Autenticação via Laravel Sanctum
+- Validação de dados em todas as requisições
+- Middleware de autorização por função
 
 ### 🏨 Sistema de Reservas
 
@@ -56,6 +57,12 @@ Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de
 
 ### 📝 Logs de Aplicação
 - A aplicação registra logs de erro para facilitar a auditoria e o diagnóstico de problemas.
+
+### 📚 Documentação da API
+A documentação completa da API está disponível através do Swagger/ Para acessá-la, após iniciar o servidor, visite:
+```bash
+http://seu-caminho/public/api/documentation
+```
 
 
 ## 💡 Funcionalidades por Nível de Acesso
@@ -92,19 +99,6 @@ O sistema possui rotas REST para todas as entidades do banco de dados, permitind
 - Cupons e Juros
 - Autenticação
 
-## 📚 Documentação da API
-
-A documentação completa da API está disponível através do Swagger/OpenAPI 3.0. Para acessá-la, após iniciar o servidor, visite:
-
-```bash
-http://seu-caminho/public/api/documentation
-```
-
-## 🔒 Segurança
-
-- Autenticação via Laravel Sanctum
-- Validação de dados em todas as requisições
-- Middleware de autorização por função
 
 ## 📦 Pré-requisitos
 
