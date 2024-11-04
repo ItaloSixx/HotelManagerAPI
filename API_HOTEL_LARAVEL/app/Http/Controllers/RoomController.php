@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RoomRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RoomController extends Controller
 {
@@ -13,14 +14,19 @@ class RoomController extends Controller
      *     path="/api/rooms",
      *     tags={"Rooms"},
      *     summary="Lista todos os quartos",
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Response(response=200, description="Lista de quartos")
      * )
      */
     public function index()
     {
-        $rooms = DB::table('rooms')->get();
-
-        return response()->json($rooms, 200);
+        try {
+            $rooms = DB::table('rooms')->get();
+            return response()->json($rooms, 200);
+        } catch (\Exception $e) {
+            Log::error("Erro ao listar quartos: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao listar quartos'], 500);
+        }
     }
 
     /**
@@ -28,6 +34,7 @@ class RoomController extends Controller
      *     path="/api/rooms",
      *     tags={"Rooms"},
      *     summary="Cadastra um novo quarto",
+     *     description="Acesso permitido para administradores",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -45,23 +52,24 @@ class RoomController extends Controller
     {
         $data = $request->validated();
 
-        $roomAdd = DB::table('rooms')->insert([
-            'hotelCode' => $data['hotelCode'],
-            'name' => $data['name'],
-            'availability' => $data['availability'],
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        try {
+            $roomAdd = DB::table('rooms')->insert([
+                'hotelCode' => $data['hotelCode'],
+                'name' => $data['name'],
+                'availability' => $data['availability'],
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
 
-        if (!$roomAdd) {
-            return response()->json([
-                'message' => 'Falha ao criar quarto'
-            ], 500);
+            if (!$roomAdd) {
+                return response()->json(['message' => 'Falha ao criar quarto'], 500);
+            }
+
+            return response()->json(['message' => 'Quarto cadastrado com sucesso'], 201);
+        } catch (\Exception $e) {
+            Log::error("Erro ao criar quarto: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao criar quarto'], 500);
         }
-
-        return response()->json([
-            'message' => 'Quarto cadastrado com sucesso'
-        ], 201);
     }
 
     /**
@@ -69,6 +77,7 @@ class RoomController extends Controller
      *     path="/api/rooms/{id}",
      *     tags={"Rooms"},
      *     summary="Exibe os detalhes de um quarto específico",
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -81,15 +90,18 @@ class RoomController extends Controller
      */
     public function show(string $id)
     {
-        $room = DB::table('rooms')->where('id', $id)->first();
+        try {
+            $room = DB::table('rooms')->where('id', $id)->first();
 
-        if (!$room) {
-            return response()->json([
-                'message' => 'Quarto não encontrado'
-            ], 404);
+            if (!$room) {
+                return response()->json(['message' => 'Quarto não encontrado'], 404);
+            }
+
+            return response()->json($room, 200);
+        } catch (\Exception $e) {
+            Log::error("Erro ao exibir quarto: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao exibir quarto'], 500);
         }
-
-        return response()->json($room, 200);
     }
 
     /**
@@ -97,6 +109,7 @@ class RoomController extends Controller
      *     path="/api/rooms/{id}",
      *     tags={"Rooms"},
      *     summary="Atualiza um quarto",
+     *     description="Acesso permitido para administradores",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -120,22 +133,23 @@ class RoomController extends Controller
     {
         $data = $request->validated();
 
-        $roomPut = DB::table('rooms')->where('id', $id)->update([
-            'hotelCode' => $data['hotelCode'],
-            'name' => $data['name'],
-            'availability' => $data['availability'],
-            'updated_at' => now()
-        ]);
+        try {
+            $roomPut = DB::table('rooms')->where('id', $id)->update([
+                'hotelCode' => $data['hotelCode'],
+                'name' => $data['name'],
+                'availability' => $data['availability'],
+                'updated_at' => now()
+            ]);
 
-        if ($roomPut === 0) {
-            return response()->json([
-                'message' => 'Falha ao atualizar quarto'
-            ], 500);
+            if ($roomPut === 0) {
+                return response()->json(['message' => 'Falha ao atualizar quarto'], 500);
+            }
+
+            return response()->json(['message' => 'Quarto atualizado com sucesso']);
+        } catch (\Exception $e) {
+            Log::error("Erro ao atualizar quarto: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao atualizar quarto'], 500);
         }
-
-        return response()->json([
-            'message' => 'Quarto atualizado com sucesso'
-        ]);
     }
 
     /**
@@ -143,6 +157,7 @@ class RoomController extends Controller
      *     path="/api/rooms/{id}",
      *     tags={"Rooms"},
      *     summary="Exclui um quarto",
+     *     description="Acesso permitido para administradores",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -155,16 +170,17 @@ class RoomController extends Controller
      */
     public function destroy(string $id)
     {
-        $roomDel = DB::table('rooms')->where('id', $id)->delete();
+        try {
+            $roomDel = DB::table('rooms')->where('id', $id)->delete();
 
-        if (!$roomDel) {
-            return response()->json([
-                'message' => 'Falha ao excluir quarto'
-            ], 500);
+            if (!$roomDel) {
+                return response()->json(['message' => 'Falha ao excluir quarto'], 500);
+            }
+
+            return response()->json(['message' => 'Quarto excluído com sucesso']);
+        } catch (\Exception $e) {
+            Log::error("Erro ao excluir quarto: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao excluir quarto'], 500);
         }
-
-        return response()->json([
-            'message' => 'Quarto excluído com sucesso'
-        ]);
     }
 }

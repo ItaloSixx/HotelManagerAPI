@@ -21,7 +21,7 @@
         "/api/login": {
             "post": {
                 "tags": [
-                    "Autenticação"
+                    "Auth"
                 ],
                 "summary": "Realiza o login do usuário",
                 "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
@@ -64,7 +64,7 @@
         "/api/logout": {
             "post": {
                 "tags": [
-                    "Autenticação"
+                    "Auth  "
                 ],
                 "summary": "Realiza o logout do usuário",
                 "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
@@ -1393,12 +1393,18 @@
                     "Users"
                 ],
                 "summary": "Lista todos os usuários",
+                "description": "Acesso permitido para administradores",
                 "operationId": "c457726701591d1183b53aa71fc13441",
                 "responses": {
                     "200": {
                         "description": "Lista de usuários"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1568,8 +1574,12 @@
     },
     "tags": [
         {
-            "name": "Autenticação",
-            "description": "Autenticação"
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Auth  ",
+            "description": "Auth  "
         },
         {
             "name": "Coupons",
