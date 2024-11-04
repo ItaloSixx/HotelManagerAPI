@@ -22,7 +22,7 @@ que o modelo do banco deixou explicito, portanto há várias funcionalidades nã
 
 ### 📐 Padrões de Projeto
 - MVC com a adição da camada de Form Request para validação de dados de entrada.
-- 
+  
 ### 🐳 Docker
 - Utilização de containers Docker para simplificar a instalação e execução do ambiente de desenvolvimento.
 
@@ -77,8 +77,6 @@ que o modelo do banco deixou explicito, portanto há várias funcionalidades nã
 
 ## 🗄️ Modelo do Banco de Dados
 
-
-
 ### Estrutura Principal
 ![Modelo do banco de dados](./Arquivos/HOTEL_DB.png)
 
@@ -117,8 +115,7 @@ http://seu-caminho/public/api/documentation
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/nome-do-repo.git
-cd nome-do-repo
+https://github.com/ItaloSixx/API_HOTEL_LARAVEL
 ```
 
 2. Construa a imagem Docker:
@@ -143,7 +140,7 @@ php artisan import:xml
 docker-compose down
 ```
 
-**Nota**: O arquivo `docker-compose.yml` já contém todas as variáveis de ambiente necessárias configuradas para facilitar o processo de instalação.
+**Nota:** O arquivo .env foi incluído no projeto para simplificar a configuração, já que o docker-compose.yml contém todas as variáveis de ambiente necessárias para facilitar o processo de instalação. **No entanto, é essencial ajustar os caminhos dos volumes conforme necessário.**
 
 # Informações gerais sobre o projeto
 
