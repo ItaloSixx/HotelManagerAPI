@@ -1,0 +1,14 @@
+<Dailies>
+    <Daily id="1" reserveId="1">
+        <Date>2022-12-01</Date>
+        <Value>100.00</Value>
+    </Daily>
+    <Daily id="2" reserveId="1">
+        <Date>2022-12-02</Date>
+        <Value>100.00</Value>
+    </Daily>
+    <Daily id="3" reserveId="2">
+        <Date>2022-12-03</Date>
+        <Value>150.00</Value>
+    </Daily>
+</Dailies>

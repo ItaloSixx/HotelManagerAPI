@@ -1,0 +1,17 @@
+<Guests>
+    <Guest id="1">
+        <Name>Fulaninho</Name>
+        <LastName>de Tal</LastName>
+        <Phone>5571995959595</Phone>
+    </Guest>
+    <Guest id="2">
+        <Name>Fulaninha</Name>
+        <LastName>de Tal</LastName>
+        <Phone>5571998989898</Phone>
+    </Guest>
+    <Guest id="3">
+        <Name>Cicrano</Name>
+        <LastName>da Silva</LastName>
+        <Phone>5571991919191</Phone>
+    </Guest>
+</Guests>
