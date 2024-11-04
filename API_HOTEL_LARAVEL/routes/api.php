@@ -19,7 +19,6 @@ Route::get('/status', function(){
     [
         'status' => 'ok',
         'message' => 'API running'
-
     ],
     200);
 })->middleware('auth:sanctum');
