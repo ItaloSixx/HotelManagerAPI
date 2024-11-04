@@ -15,6 +15,49 @@ que o modelo do banco deixou explicito, portanto há várias funcionalidades nã
 - Swagger/OpenAPI 3.0
 - Laravel Sanctum
 
+## 🏆 Diferenciais Atendidos
+
+### Documentação Utilizando Swagger / OpenAPI 3.0
+- A documentação da API foi desenvolvida utilizando Swagger / OpenAPI 3.0, permitindo fácil visualização e teste das rotas de forma interativa.
+
+### 📐 Padrões de Projeto
+- MVC com a adição da camada de Form Request para validação de dados de entrada.
+- 
+### 🐳 Docker
+- Utilização de containers Docker para simplificar a instalação e execução do ambiente de desenvolvimento.
+
+### 🌳 Git Pattern
+- O projeto segue o padrão de branch **Git Flow**.
+- Utilização de mensagens de commit.
+- **O histórico de commits completo está disponível na branch (`Master`) do repositório.**
+
+### 📡 HTTP Verbs
+- Utilização apropriada de verbos HTTP (GET, POST, PUT, DELETE) para garantir a semântica correta nas requisições e operações.
+
+### 🔒 Segurança
+- Medidas de segurança foram implementadas, incluindo proteção contra vulnerabilidades comuns, autenticação segura e logs de auditoria.
+- O uso de sanctum para autenticação de usuários garante que apenas acessos autorizados possam interagir com a API.
+
+### 🏨 Sistema de Reservas
+
+- - O sistema considera cupons de desconto e acréscimos, como juros e taxas de serviço.
+
+### 📅 Disponibilidade de Reservas
+- A lógica de disponibilidade foi projetada para considerar a quantidade específica de tipos de quartos. Por exemplo, quartos `Standard` com 10 unidades disponíveis são gerenciados adequadamente para evitar overbooking.
+
+### 🧑‍💼 Gerência do Hoteleiro
+- O sistema permite a gestão completa pelo hoteleiro, que pode monitorar, gerenciar e ajustar reservas, pagamentos e disponibilidade de quartos.
+
+### 🏢 Estabelecimento com Usuários e Permissões
+- O projeto possui uma estrutura de gerenciamento de usuários com permissões específicas para garantir um controle preciso de acesso e operações, de acordo com as funções dos usuários (admin, receptionist).
+
+### 💳 Gestão de Pagamentos
+- Implementação de funcionalidades para a gestão de pagamentos.
+
+### 📝 Logs de Aplicação
+- A aplicação registra logs de erro para facilitar a auditoria e o diagnóstico de problemas.
+
+
 ## 💡 Funcionalidades por Nível de Acesso
 
 ### Admin
@@ -97,11 +140,9 @@ php artisan import:xml
 docker-compose down
 ```
 
-# Projeto de Autenticação e Autorização
-
 **Nota**: O arquivo `docker-compose.yml` já contém todas as variáveis de ambiente necessárias configuradas para facilitar o processo de instalação.
 
-## 🔐 Sistema de Autenticação e Autorização
+# Informações gerais sobre o projeto
 
 Durante o desenvolvimento deste projeto, notei um comportamento inesperado com as rotas. Após realizar testes em diferentes máquinas, descobri que era necessário incluir `/public` antes de todas as rotas para que elas funcionassem corretamente. Por exemplo:
 
