@@ -80,6 +80,7 @@ que o modelo do banco deixou explicito, portanto há várias funcionalidades nã
 
 
 ### Estrutura Principal
+![Modelo do banco de dados](./Arquivos/)
 
 
 O sistema possui rotas REST para todas as entidades do banco de dados, permitindo operações CRUD em:
@@ -154,7 +155,7 @@ Portanto, se a forma convencional (sem o `/public`) não funcionar, por favor, a
 ## ⚙️ Configuração do Ambiente
 
 ### Download do Arquivo de Rotas
-Você pode baixar o arquivo de rotas clicando [aqui](./Arquivos/api_hotel.postman_collection.json) e o ambiente [aqui] (./Arquivos/Caminho.postman_environment.json). Execute as rotas utilizando o Postman ou o Insomnia.
+Você pode baixar o arquivo de rotas clicando [aqui](./Arquivos/api_hotel.postman_collection.json) e o ambiente [aqui](./Arquivos/Caminho.postman_environment.json). Execute as rotas utilizando o Postman ou o Insomnia.
 
 ### Configuração das Variáveis de Ambiente
 Certifique-se de atualizar as variáveis de ambiente para refletir o caminho e a porta corretos do seu container Docker.
