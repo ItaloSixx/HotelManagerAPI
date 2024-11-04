@@ -3,8 +3,8 @@
 ## 📋 Sobre o Projeto
 
 Este projeto é um sistema  de gerenciamento hoteleiro que oferece um conjunto de módulos para facilitar a gestão de estabelecimentos hoteleiros. 
-É mportante ressaltar que o sistema foi desenvolvido com base no que eu visualizei após modelar o banco de dados, tentei atender todas as funcionalidades 
-que o modelo do banco deixou explicito, portanto há várias funcionalidades não solicitas no desafio. 
+**É mportante ressaltar que o sistema foi desenvolvido com base no que eu visualizei após modelar o banco de dados, tentei atender todas as funcionalidades 
+que o modelo do banco deixou explicito, portanto há várias funcionalidades não solicitas no desafio.** 
 
 ## 🚀 Tecnologias Utilizadas
 
