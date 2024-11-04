@@ -19,7 +19,7 @@ class ReservesRequests extends FormRequest
                 'hotelCode' => 'required|exists:hotels,id',
                 'roomCode' => 'required|exists:rooms,id',
                 'checkIn' => 'required|date|after_or_equal:today',
-                'checkOut' => 'required|date|after:checkIn',
+                'checkOut' => 'nullable|date|after:checkIn',
                 'total' => 'required|numeric|min:0',
                 'discounts' => 'nullable|string',
                 'additional_charges' => 'nullable|numeric|min:0'
