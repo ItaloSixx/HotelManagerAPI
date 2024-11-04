@@ -2,7 +2,7 @@
 
 ## 📋 Sobre o Projeto
 
-Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de módulos para facilitar a administração de estabelecimentos hoteleiros. **É importante destacar que o sistema foi desenvolvido com base na modelagem do banco de dados; assim, busquei implementar todas as funcionalidades evidenciadas pelo modelo, incluindo várias que não foram solicitadas no desafio.**
+Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de módulos para facilitar a administração de estabelecimentos hoteleiros. **É importante destacar que o sistema foi desenvolvido com base na modelagem do banco de dados; assim, busquei implementar todas as funcionalidades evidenciadas pelo modelo, incluindo várias que não foram solicitadas no desafio. Recomendo fortemente a leitura completa desse README para uma compreensão de todas as funcionalidades e configurações do sistema.**
 
 **O histórico completo de commits está disponível na branch master do repositório.**
 
@@ -262,5 +262,7 @@ DELETE  /api/users/{id}
 ```bash
 POST    /api/logout      # Requer autenticação
 ```
+
+Agradeço a oportunidade de realizar o teste! 🙏. Qualquer duvida, por favor, entre em contato comigo pelo email italojefer55@gmail.com ou redes sociais
 
 
