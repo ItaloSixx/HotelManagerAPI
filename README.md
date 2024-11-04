@@ -82,6 +82,8 @@ que o modelo do banco deixou explicito, portanto há várias funcionalidades nã
 ### Estrutura Principal
 ![Modelo do banco de dados](./Arquivos/HOTEL_DB.png)
 
+Você pode baixar também o .SQL [aqui](./Arquivos/db_hotel.sql)
+
 
 O sistema possui rotas REST para todas as entidades do banco de dados, permitindo operações CRUD em:
 - Usuários
@@ -151,6 +153,30 @@ Durante o desenvolvimento deste projeto, notei um comportamento inesperado com a
 - **Agora**: `/public/api/login`
 
 Portanto, se a forma convencional (sem o `/public`) não funcionar, por favor, adicione `/public` ao início das rotas.
+
+## Importação Automática de Dados XML via CRON
+
+O processo de importação de dados XML é configurado para ser executado automaticamente diariamente via CRON. Esse agendamento diário permite que os dados sejam importados de forma automatizada, sem a necessidade de intervenção manual. Durante cada execução, são gerados logs de acompanhamento no arquivo `laravel.log`, localizado no diretório `./storage/logs/laravel.log`, permitindo monitoramento e identificação de possíveis erros.
+
+### Configuração do CRON
+
+Para configurar o CRON no servidor onde a aplicação está hospedada, siga os passos abaixo:
+
+1. **Acessar o Servidor**  
+   Conecte-se ao servidor onde a aplicação está hospedada.
+
+2. **Abrir o CRONTAB**  
+   No terminal, digite o seguinte comando para abrir o editor de tarefas agendadas do sistema:
+
+   ```bash
+   sudo crontab -e
+
+3. **Adicionar a Tarefa de Agendamento**  
+   No final do arquivo aberto, adicione a linha de comando abaixo para configurar o CRON para chamar o script de importação a cada 5 minutos. Para agendar a execução diária, ajuste a frequência conforme necessário:
+
+   ```bash
+   */5 * * * * cd /caminho-para-seu-projeto && php artisan schedule:run >> /dev/null 2>&1
+
 
 ## ⚙️ Configuração do Ambiente
 
@@ -247,7 +273,3 @@ POST    /api/logout      # Requer autenticação
 ```
 
 
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
