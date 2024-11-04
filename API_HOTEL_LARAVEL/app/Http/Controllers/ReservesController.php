@@ -13,14 +13,14 @@ class ReservesController extends Controller
      *     path="/api/reserves",
      *     tags={"Reserves"},
      *     summary="Lista todas as reservas",
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Response(response=200, description="Lista de reservas")
      * )
      */
     public function index()
     {
         $reserves = DB::table('reserves')->whereNull('deleted_at')->get();
-
-        return response()->json($reserves, 201);
+        return response()->json($reserves, 200);
     }
 
     /**
@@ -28,6 +28,7 @@ class ReservesController extends Controller
      *     path="/api/reserves",
      *     tags={"Reserves"},
      *     summary="Cadastra uma nova reserva",
+     *     description="Acesso permitido para administradores",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -49,18 +50,15 @@ class ReservesController extends Controller
     public function store(ReservesRequests $request)
     {
         $data = $request->validated();
-
         $discountValue = $this->validatedCoupon($data['coupons'] ?? null);
-
         $data['total'] = $this->calcTotal($data, $discountValue);
 
         $room = DB::table('rooms')->where('id', $data['roomCode'])->first();
-        if(!$room) {
+        if (!$room) {
             return response()->json(['message' => 'Quarto não encontrado'], 404);
         }
 
-        if($room->availability > 0)
-        {
+        if ($room->availability > 0) {
             $reserve = DB::table('reserves')->insert([
                 'hotelCode' => $data['hotelCode'],
                 'roomCode' => $data['roomCode'],
@@ -78,11 +76,9 @@ class ReservesController extends Controller
             }
 
             DB::table('rooms')->where('id', $data['roomCode'])->decrement('availability', 1);
-
             return response()->json(['message' => 'Reserva criada com sucesso'], 201);
         } else {
             return response()->json(['message' => 'Quarto indisponível'], 500);
-
         }
     }
 
@@ -91,6 +87,7 @@ class ReservesController extends Controller
      *     path="/api/reserves/{id}",
      *     tags={"Reserves"},
      *     summary="Exibe os detalhes de uma reserva específica",
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -108,10 +105,8 @@ class ReservesController extends Controller
                        ->whereNull('deleted_at')
                        ->first();
 
-        if(!$reserve){
-            return response()->json([
-                'message' => 'Reserva não encontrada'
-            ], 404);
+        if (!$reserve) {
+            return response()->json(['message' => 'Reserva não encontrada'], 404);
         }
 
         return response()->json($reserve, 200);
@@ -122,6 +117,7 @@ class ReservesController extends Controller
      *     path="/api/reserves/{id}",
      *     tags={"Reserves"},
      *     summary="Atualiza uma reserva",
+     *     description="Acesso permitido para administradores",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -148,9 +144,7 @@ class ReservesController extends Controller
     public function update(ReservesRequests $request, string $id)
     {
         $data = $request->validated();
-
         $discountValue = $this->validatedCoupon($data['coupons'] ?? null);
-
         $data['total'] = $this->calcTotal($data, $discountValue);
 
         $reservePut = DB::table('reserves')->where('id', $id)->update([
@@ -164,15 +158,11 @@ class ReservesController extends Controller
             'updated_at' => now()
         ]);
 
-        if($reservePut === 0){
-            return response()->json([
-                'message' => 'Reserva não encontrada ou não atualizada'
-            ], 500);
+        if ($reservePut === 0) {
+            return response()->json(['message' => 'Reserva não encontrada ou não atualizada'], 500);
         }
 
-        return response()->json([
-            'message' => 'Atualizado com sucesso'
-        ], 201);
+        return response()->json(['message' => 'Atualizado com sucesso'], 200);
     }
 
     /**
@@ -180,6 +170,7 @@ class ReservesController extends Controller
      *     path="/api/reserves/{id}",
      *     tags={"Reserves"},
      *     summary="Exclui uma reserva",
+     *     description="Acesso permitido para administradores",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -192,24 +183,21 @@ class ReservesController extends Controller
      */
     public function destroy(string $id)
     {
-        $reserve = DB::table('reserves')->where('id', $id)->update(['deleted_at'=> now()]);
+        $reserve = DB::table('reserves')->where('id', $id)->update(['deleted_at' => now()]);
 
-        if(!$reserve){
-            return response()->json([
-                'message'=> 'Reserva não encontrada ou não excluída'
-            ], 500);
+        if (!$reserve) {
+            return response()->json(['message' => 'Reserva não encontrada ou não excluída'], 500);
         }
 
-        return response()->json([
-            'message' => 'Reserva excluída'
-        ], 201);
+        return response()->json(['message' => 'Reserva excluída'], 200);
     }
 
-    private function validatedCoupon($cuponCode){
+    private function validatedCoupon($cuponCode)
+    {
         $discountValue = 0;
-        if($cuponCode){
+        if ($cuponCode) {
             $coupon = DB::table('coupons')->where('code', $cuponCode)->first();
-            if(!$coupon){
+            if (!$coupon) {
                 abort(404, 'Cupom inválido');
             }
             $discountValue = $coupon->discount_value;
