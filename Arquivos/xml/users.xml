@@ -1,0 +1,20 @@
+<Users>
+    <User id="1">
+        <Name>João Silva</Name>
+        <Email>joao.silva@gmail.com</Email>
+        <Password>senha123</Password>
+        <Role>admin</Role>
+    </User>
+    <User id="2">
+        <Name>Maria Souza</Name>
+        <Email>maria.souza@yahoo.com</Email>
+        <Password>senha456</Password>
+        <Role>receptionist</Role>
+    </User>
+    <User id="3">
+        <Name>Carlos Santos</Name>
+        <Email>carlos.santos@outlook.com</Email>
+        <Password>senha789</Password>
+        <Role>receptionist</Role>
+    </User>
+</Users>

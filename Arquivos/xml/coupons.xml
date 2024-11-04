@@ -1,0 +1,14 @@
+<Coupons>
+    <Coupon id="1">
+        <Code>DISCOUNT10</Code>
+        <DiscountValue>10.00</DiscountValue>
+    </Coupon>
+    <Coupon id="2">
+        <Code>SUMMERSALE</Code>
+        <DiscountValue>20.00</DiscountValue>
+    </Coupon>
+    <Coupon id="3">
+        <Code>WELCOME5</Code>
+        <DiscountValue>5.00</DiscountValue>
+    </Coupon>
+</Coupons>

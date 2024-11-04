@@ -1,0 +1,11 @@
+<Payments>
+    <Payment id="1" reserveId="1">
+        <Value>100.00</Value>
+    </Payment>
+    <Payment id="2" reserveId="2">
+        <Value>150.00</Value>
+    </Payment>
+    <Payment id="3" reserveId="3">
+        <Value>200.00</Value>
+    </Payment>
+</Payments>

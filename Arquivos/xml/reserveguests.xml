@@ -1,0 +1,5 @@
+<ReserveGuests>
+    <ReserveGuest reserveId="1" guestId="1"/>
+    <ReserveGuest reserveId="2" guestId="2"/>
+    <ReserveGuest reserveId="3" guestId="3"/>
+</ReserveGuests>
