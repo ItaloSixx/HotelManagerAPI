@@ -97,29 +97,32 @@ php artisan import:xml
 docker-compose down
 ```
 
-> **Nota**: O arquivo docker-compose.yml já contém todas as variáveis de ambiente necessárias configuradas para facilitar o processo de instalação.
+# Projeto de Autenticação e Autorização
+
+**Nota**: O arquivo `docker-compose.yml` já contém todas as variáveis de ambiente necessárias configuradas para facilitar o processo de instalação.
 
 ## 🔐 Sistema de Autenticação e Autorização
 
-Durante o desenvolvimento deste projeto, notei um comportamento inesperado com as rotas. Após realizar testes em diferentes máquinas, descobri que era necessário incluir "/public" antes de todas as rotas para que elas funcionassem corretamente. Por exemplo:
+Durante o desenvolvimento deste projeto, notei um comportamento inesperado com as rotas. Após realizar testes em diferentes máquinas, descobri que era necessário incluir `/public` antes de todas as rotas para que elas funcionassem corretamente. Por exemplo:
 
-Antes: /api/login
+- **Antes**: `/api/login`
+- **Agora**: `/public/api/login`
 
-Agora: /public/api/login
+Portanto, se a forma convencional (sem o `/public`) não funcionar, por favor, adicione `/public` ao início das rotas.
 
-Portanto, se a forma convencional (sem o /public) não funcionar, por favor, adicione "/public" ao início das rotas.
+## ⚙️ Configuração do Ambiente
 
-#Configuração do Ambiente
-Download do Arquivo de Rotas: Você pode baixar o arquivo de rotas clicando aqui, execute via postman ou insomnia.
+### Download do Arquivo de Rotas
+Você pode baixar o arquivo de rotas clicando [aqui](#). Execute as rotas utilizando o Postman ou o Insomnia.
 
-#Configuração das Variáveis de Ambiente:
-Atualize as variáveis de ambiente para refletir o caminho e a porta corretos do seu container Docker.
+### Configuração das Variáveis de Ambiente
+Certifique-se de atualizar as variáveis de ambiente para refletir o caminho e a porta corretos do seu container Docker.
 
-#Cadastro de Usuário:
-Crie um usuário com papel de admin ou receptionist.
+## 📝 Cadastro de Usuário
+Crie um usuário com papel de `admin` ou `receptionist`.
 
-#Login e Token:
-Realize o login, copie o token de autenticação gerado e inclua-o nas variáveis de ambiente.
+## 🔑 Login e Token
+Realize o login e copie o token de autenticação gerado. Em seguida, inclua o token nas variáveis de ambiente para autenticação.
 
 
 ### Rotas Públicas
