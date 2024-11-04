@@ -6,7 +6,7 @@ Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de
 
 **O histórico completo de commits está disponível na branch master do repositório.**
 
-**Recomendo fortemente a leitura completa desse README para uma compreensão de todas as funcionalidades e configurações do sistema.**
+**Recomendo fortemente a leitura completa desse README para uma compreensão de todas as funcionalidades e configurações para o projeto**
 
 
 ## 🚀 Tecnologias Utilizadas
