@@ -140,7 +140,7 @@ docker-compose down
 
 **Nota:** O arquivo .env foi incluído no projeto para simplificar a configuração, já que o docker-compose.yml contém todas as variáveis de ambiente necessárias para facilitar o processo de instalação. **No entanto, é essencial ajustar os caminhos dos volumes conforme necessário.**
 
-# Informações gerais sobre o projeto
+# ❕ Informações gerais sobre o projeto
 
 Durante o desenvolvimento deste projeto, notei um comportamento inesperado com as rotas. Após realizar testes em diferentes máquinas, descobri que era necessário incluir `/public` antes de todas as rotas para que elas funcionassem corretamente. Por exemplo:
 
@@ -149,11 +149,11 @@ Durante o desenvolvimento deste projeto, notei um comportamento inesperado com a
 
 Portanto, se a forma convencional (sem o `/public`) não funcionar, por favor, adicione `/public` ao início das rotas.
 
-## Importação Automática de Dados XML via CRON
+## 🕗 Importação Automática de Dados XML via CRON
 
 O processo de importação de dados XML é configurado para ser executado automaticamente diariamente via CRON. Esse agendamento diário permite que os dados sejam importados de forma automatizada, sem a necessidade de intervenção manual.
 
-### Configuração do CRON
+### ⚙️ Configuração do CRON
 
 Para configurar o CRON no servidor onde a aplicação está hospedada, siga os passos abaixo:
 
