@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReservesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ReservesController extends Controller
 {
@@ -13,14 +14,19 @@ class ReservesController extends Controller
      *     path="/api/reserves",
      *     tags={"Reserves"},
      *     summary="Lista todas as reservas",
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Response(response=200, description="Lista de reservas")
      * )
      */
     public function index()
     {
-        $reserves = DB::table('reserves')->whereNull('deleted_at')->get();
-
-        return response()->json($reserves, 201);
+        try {
+            $reserves = DB::table('reserves')->whereNull('deleted_at')->get();
+            return response()->json($reserves, 200);
+        } catch (\Exception $e) {
+            Log::error("Erro ao listar reservas: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao listar reservas'], 500);
+        }
     }
 
     /**
@@ -28,6 +34,7 @@ class ReservesController extends Controller
      *     path="/api/reserves",
      *     tags={"Reserves"},
      *     summary="Cadastra uma nova reserva",
+     *     description="Acesso permitido para administradores",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -48,41 +55,41 @@ class ReservesController extends Controller
      */
     public function store(ReservesRequests $request)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
+            $discountValue = $this->validatedCoupon($data['coupon'] ?? null);
+            $data['total'] = $this->calcTotal($data, $discountValue);
 
-        $discountValue = $this->validatedCoupon($data['coupons'] ?? null);
-
-        $data['total'] = $this->calcTotal($data, $discountValue);
-
-        $room = DB::table('rooms')->where('id', $data['roomCode'])->first();
-        if(!$room) {
-            return response()->json(['message' => 'Quarto não encontrado'], 404);
-        }
-
-        if($room->availability > 0)
-        {
-            $reserve = DB::table('reserves')->insert([
-                'hotelCode' => $data['hotelCode'],
-                'roomCode' => $data['roomCode'],
-                'checkIn' => $data['checkIn'],
-                'checkOut' => $data['checkOut'],
-                'total' => $data['total'],
-                'discounts' => $discountValue,
-                'additional_charges' => $data['additional_charges'],
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-
-            if (!$reserve) {
-                return response()->json(['message' => 'Falha ao inserir a reserva'], 500);
+            $room = DB::table('rooms')->where('id', $data['roomCode'])->first();
+            if (!$room) {
+                return response()->json(['message' => 'Quarto não encontrado'], 404);
             }
 
-            DB::table('rooms')->where('id', $data['roomCode'])->decrement('availability', 1);
+            if ($room->availability > 0) {
+                $reserve = DB::table('reserves')->insert([
+                    'hotelCode' => $data['hotelCode'],
+                    'roomCode' => $data['roomCode'],
+                    'checkIn' => $data['checkIn'],
+                    'checkOut' => $data['checkOut'],
+                    'total' => $data['total'],
+                    'discounts' => $discountValue,
+                    'additional_charges' => $data['additional_charges'],
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
 
-            return response()->json(['message' => 'Reserva criada com sucesso'], 201);
-        } else {
-            return response()->json(['message' => 'Quarto indisponível'], 500);
+                if (!$reserve) {
+                    throw new \Exception('Falha ao inserir a reserva');
+                }
 
+                DB::table('rooms')->where('id', $data['roomCode'])->decrement('availability', 1);
+                return response()->json(['message' => 'Reserva criada com sucesso'], 201);
+            } else {
+                return response()->json(['message' => 'Quarto indisponível'], 500);
+            }
+        } catch (\Exception $e) {
+            Log::error("Erro ao criar reserva: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao criar reserva'], 500);
         }
     }
 
@@ -91,6 +98,7 @@ class ReservesController extends Controller
      *     path="/api/reserves/{id}",
      *     tags={"Reserves"},
      *     summary="Exibe os detalhes de uma reserva específica",
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -103,18 +111,21 @@ class ReservesController extends Controller
      */
     public function show(string $id)
     {
-        $reserve = DB::table('reserves')
-                       ->where('id', $id)
-                       ->whereNull('deleted_at')
-                       ->first();
+        try {
+            $reserve = DB::table('reserves')
+                ->where('id', $id)
+                ->whereNull('deleted_at')
+                ->first();
 
-        if(!$reserve){
-            return response()->json([
-                'message' => 'Reserva não encontrada'
-            ], 404);
+            if (!$reserve) {
+                return response()->json(['message' => 'Reserva não encontrada'], 404);
+            }
+
+            return response()->json($reserve, 200);
+        } catch (\Exception $e) {
+            Log::error("Erro ao exibir reserva: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao exibir reserva'], 500);
         }
-
-        return response()->json($reserve, 200);
     }
 
     /**
@@ -122,6 +133,7 @@ class ReservesController extends Controller
      *     path="/api/reserves/{id}",
      *     tags={"Reserves"},
      *     summary="Atualiza uma reserva",
+     *     description="Acesso permitido para administradores",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -147,32 +159,31 @@ class ReservesController extends Controller
      */
     public function update(ReservesRequests $request, string $id)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
+            $discountValue = $this->validatedCoupon($data['coupon'] ?? null);
+            $data['total'] = $this->calcTotal($data, $discountValue);
 
-        $discountValue = $this->validatedCoupon($data['coupons'] ?? null);
+            $reservePut = DB::table('reserves')->where('id', $id)->update([
+                'hotelCode' => $data['hotelCode'],
+                'roomCode' => $data['roomCode'],
+                'checkIn' => $data['checkIn'],
+                'checkOut' => $data['checkOut'],
+                'total' => $data['total'],
+                'discounts' => $discountValue,
+                'additional_charges' => $data['additional_charges'],
+                'updated_at' => now()
+            ]);
 
-        $data['total'] = $this->calcTotal($data, $discountValue);
+            if ($reservePut === 0) {
+                return response()->json(['message' => 'Reserva não encontrada ou não atualizada'], 500);
+            }
 
-        $reservePut = DB::table('reserves')->where('id', $id)->update([
-            'hotelCode' => $data['hotelCode'],
-            'roomCode' => $data['roomCode'],
-            'checkIn' => $data['checkIn'],
-            'checkOut' => $data['checkOut'],
-            'total' => $data['total'],
-            'discounts' => $discountValue,
-            'additional_charges' => $data['additional_charges'],
-            'updated_at' => now()
-        ]);
-
-        if($reservePut === 0){
-            return response()->json([
-                'message' => 'Reserva não encontrada ou não atualizada'
-            ], 500);
+            return response()->json(['message' => 'Atualizado com sucesso'], 200);
+        } catch (\Exception $e) {
+            Log::error("Erro ao atualizar reserva: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao atualizar reserva'], 500);
         }
-
-        return response()->json([
-            'message' => 'Atualizado com sucesso'
-        ], 201);
     }
 
     /**
@@ -180,6 +191,7 @@ class ReservesController extends Controller
      *     path="/api/reserves/{id}",
      *     tags={"Reserves"},
      *     summary="Exclui uma reserva",
+     *     description="Acesso permitido para administradores",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -192,24 +204,26 @@ class ReservesController extends Controller
      */
     public function destroy(string $id)
     {
-        $reserve = DB::table('reserves')->where('id', $id)->update(['deleted_at'=> now()]);
+        try {
+            $reserve = DB::table('reserves')->where('id', $id)->update(['deleted_at' => now()]);
 
-        if(!$reserve){
-            return response()->json([
-                'message'=> 'Reserva não encontrada ou não excluída'
-            ], 500);
+            if (!$reserve) {
+                return response()->json(['message' => 'Reserva não encontrada ou não excluída'], 500);
+            }
+
+            return response()->json(['message' => 'Reserva excluída com sucesso'], 200);
+        } catch (\Exception $e) {
+            Log::error("Erro ao excluir reserva: {$e->getMessage()}");
+            return response()->json(['message' => 'Erro ao excluir reserva'], 500);
         }
-
-        return response()->json([
-            'message' => 'Reserva excluída'
-        ], 201);
     }
 
-    private function validatedCoupon($cuponCode){
+    private function validatedCoupon($couponCode)
+    {
         $discountValue = 0;
-        if($cuponCode){
-            $coupon = DB::table('coupons')->where('code', $cuponCode)->first();
-            if(!$coupon){
+        if ($couponCode) {
+            $coupon = DB::table('coupons')->where('code', $couponCode)->first();
+            if (!$coupon) {
                 abort(404, 'Cupom inválido');
             }
             $discountValue = $coupon->discount_value;

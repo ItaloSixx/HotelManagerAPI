@@ -21,9 +21,10 @@
         "/api/login": {
             "post": {
                 "tags": [
-                    "Autenticação"
+                    "Auth"
                 ],
                 "summary": "Realiza o login do usuário",
+                "description": "Acesso permitido para todos os usuários",
                 "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
                 "requestBody": {
                     "required": true,
@@ -64,9 +65,10 @@
         "/api/logout": {
             "post": {
                 "tags": [
-                    "Autenticação"
+                    "Auth"
                 ],
                 "summary": "Realiza o logout do usuário",
+                "description": "Acesso permitido para usuários logados",
                 "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
                 "responses": {
                     "200": {
@@ -81,6 +83,7 @@
                     "Coupons"
                 ],
                 "summary": "Lista todos os cupons",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "604737e7b2bc9f1cf60f74f3e9d3d52e",
                 "responses": {
                     "200": {
@@ -93,6 +96,7 @@
                     "Coupons"
                 ],
                 "summary": "Cadastra um novo cupom",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "a75e008d77d1e534714819e34f38da3b",
                 "requestBody": {
                     "required": true,
@@ -135,6 +139,7 @@
                     "Coupons"
                 ],
                 "summary": "Exibe os detalhes de um cupom específico",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "439c255d62548658a727322622e4a792",
                 "parameters": [
                     {
@@ -160,6 +165,7 @@
                     "Coupons"
                 ],
                 "summary": "Atualiza um cupom",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "aee7a95450193d67216dc3304070b3be",
                 "parameters": [
                     {
@@ -210,6 +216,7 @@
                     "Coupons"
                 ],
                 "summary": "Exclui um cupom",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "e8f3796768468061ce65c71f0c449d3a",
                 "parameters": [
                     {
@@ -222,7 +229,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Cupom excluído com sucesso"
                     },
                     "500": {
@@ -237,6 +244,7 @@
                     "Dailies"
                 ],
                 "summary": "Lista todas as diárias",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "46ca167e1f551a574fcb624725ca3dff",
                 "responses": {
                     "200": {
@@ -249,6 +257,7 @@
                     "Dailies"
                 ],
                 "summary": "Cadastra uma nova diária",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "8ded31504146cd7ed9bbda33fba647a8",
                 "requestBody": {
                     "required": true,
@@ -297,6 +306,7 @@
                     "Dailies"
                 ],
                 "summary": "Exibe os detalhes de uma diária específica",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "33d9101104ac0ee31adce7f9ac730c6d",
                 "parameters": [
                     {
@@ -322,6 +332,7 @@
                     "Dailies"
                 ],
                 "summary": "Atualiza uma diária",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "d536d15172bd83792ecf466329d1eb29",
                 "parameters": [
                     {
@@ -365,7 +376,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Diária atualizada com sucesso"
                     },
                     "500": {
@@ -378,6 +389,7 @@
                     "Dailies"
                 ],
                 "summary": "Exclui uma diária",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "51decb28ef22ebd2d920d2e08fb9b71d",
                 "parameters": [
                     {
@@ -405,18 +417,28 @@
                     "Guests"
                 ],
                 "summary": "Lista todos os hóspedes",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "a21f3a6857fc5f6527360a0149991073",
                 "responses": {
                     "200": {
                         "description": "Lista de hóspedes"
+                    },
+                    "403": {
+                        "description": "Acesso negado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
                     "Guests"
                 ],
                 "summary": "Cadastra um novo hóspede",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "cd002bbbe6f48bb072baf7c5bad5384a",
                 "requestBody": {
                     "required": true,
@@ -454,7 +476,12 @@
                     "500": {
                         "description": "Hóspede não cadastrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/api/guests/{id}": {
@@ -463,6 +490,7 @@
                     "Guests"
                 ],
                 "summary": "Exibe os detalhes de um hóspede específico",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "a6f1cb409185665b6c5548f75613a9e7",
                 "parameters": [
                     {
@@ -480,14 +508,23 @@
                     },
                     "404": {
                         "description": "Hóspede não encontrado"
+                    },
+                    "403": {
+                        "description": "Acesso negado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
                     "Guests"
                 ],
                 "summary": "Atualiza um hóspede",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "5fa0c19ea38ebaa321bb0a5abbf8a12e",
                 "parameters": [
                     {
@@ -529,19 +566,25 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Hóspede atualizado com sucesso"
                     },
                     "500": {
                         "description": "Falha ao atualizar o hóspede"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
                     "Guests"
                 ],
                 "summary": "Exclui um hóspede",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "236b3c28f038fa3f4a1ca4a54c27957c",
                 "parameters": [
                     {
@@ -554,13 +597,18 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Hóspede excluído com sucesso"
                     },
                     "500": {
                         "description": "Falha ao excluir o hóspede"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/api/hotels": {
@@ -569,6 +617,7 @@
                     "Hotels"
                 ],
                 "summary": "Lista todos os hotéis",
+                "description": "Acesso permitido para administradores",
                 "operationId": "651e79aa92da9a32b76621ef8e320dee",
                 "responses": {
                     "200": {
@@ -581,6 +630,7 @@
                     "Hotels"
                 ],
                 "summary": "Cadastra um novo hotel",
+                "description": "Acesso permitido para administradores",
                 "operationId": "4a362f379f7f5bdeaa5a4a0377792a48",
                 "requestBody": {
                     "required": true,
@@ -617,6 +667,7 @@
                     "Hotels"
                 ],
                 "summary": "Exibe os detalhes de um hotel específico",
+                "description": "Acesso permitido para administradores",
                 "operationId": "8d5a1ce07c6fac0e3190d609919e6212",
                 "parameters": [
                     {
@@ -642,6 +693,7 @@
                     "Hotels"
                 ],
                 "summary": "Atualiza um hotel",
+                "description": "Acesso permitido para administradores",
                 "operationId": "5acbf8efb42c96351d97ff7913a0c18c",
                 "parameters": [
                     {
@@ -673,7 +725,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Hotel atualizado com sucesso"
                     },
                     "500": {
@@ -686,6 +738,7 @@
                     "Hotels"
                 ],
                 "summary": "Exclui um hotel",
+                "description": "Acesso permitido para administradores",
                 "operationId": "bff8afd1a8fdd25a02c533ef24f7ed7d",
                 "parameters": [
                     {
@@ -698,7 +751,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Hotel excluído com sucesso"
                     },
                     "500": {
@@ -713,6 +766,7 @@
                     "Payments"
                 ],
                 "summary": "Lista todos os pagamentos",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "5d60a9222dff76d7cf262181c402186c",
                 "responses": {
                     "200": {
@@ -725,6 +779,7 @@
                     "Payments"
                 ],
                 "summary": "Cadastra um novo pagamento",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "d36e2be5fe281b6d1586dd9ce1306ab5",
                 "requestBody": {
                     "required": true,
@@ -777,6 +832,7 @@
                     "Payments"
                 ],
                 "summary": "Exibe os detalhes de um pagamento específico",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "c3632c1a7d5e6eebb409bdeb974af413",
                 "parameters": [
                     {
@@ -802,6 +858,7 @@
                     "Payments"
                 ],
                 "summary": "Atualiza um pagamento",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "c875f05cad3e5fce8d2a704a64e641db",
                 "parameters": [
                     {
@@ -862,6 +919,7 @@
                     "Payments"
                 ],
                 "summary": "Exclui um pagamento",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "0a18c3c7854ce5ee449734bd2a0d7f9d",
                 "parameters": [
                     {
@@ -889,6 +947,7 @@
                     "Reserve Guests"
                 ],
                 "summary": "Adiciona um hóspede a uma reserva",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "4f6d29e36d7dbc3dfa7c510a31fe6108",
                 "parameters": [
                     {
@@ -920,13 +979,18 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Hóspede adicionado a reserva"
+                    "200": {
+                        "description": "Hóspede adicionado à reserva"
                     },
                     "404": {
                         "description": "Hóspede ou reserva não existem"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/reserves/{reserveId}/{guestId}/rmvGuest": {
@@ -935,6 +999,7 @@
                     "Reserve Guests"
                 ],
                 "summary": "Remove um hóspede de uma reserva",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "fbdad010bf41c534967d569751837823",
                 "parameters": [
                     {
@@ -955,25 +1020,31 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Hóspede removido"
+                    "200": {
+                        "description": "Hóspede removido da reserva"
                     },
                     "500": {
                         "description": "Hóspede ou reserva não existem"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
-        "/api/reserves/{reserveId}/getGuest": {
+        "/api/reserves/{reserveId}/getGuests": {
             "get": {
                 "tags": [
                     "Reserve Guests"
                 ],
                 "summary": "Lista todos os hóspedes de uma reserva",
-                "operationId": "3e1f484b4eae1296405d5a5b2a376e54",
+                "description": "Acesso permitido para administradores e recepcionistas",
+                "operationId": "f15f80903f37400ca9ab6b4fbd3f3e6f",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "reserveId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -985,19 +1056,25 @@
                     "200": {
                         "description": "Lista de hóspedes"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
-        "/api/reserves/{guestId}/getReserve": {
+        "/api/reserves/{guestId}/getReserves": {
             "get": {
                 "tags": [
                     "Reserve Guests"
                 ],
                 "summary": "Lista todas as reservas de um hóspede",
-                "operationId": "b3075aae4a7fe406dc1dbea271072e97",
+                "description": "Acesso permitido para usuários autenticados",
+                "operationId": "770a0f1343c59d1abd157a447cbd3134",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "guestId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1009,7 +1086,12 @@
                     "200": {
                         "description": "Lista de reservas"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/reserves": {
@@ -1018,6 +1100,7 @@
                     "Reserves"
                 ],
                 "summary": "Lista todas as reservas",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "d9990a505d9d1c662a6a4686eff5ad75",
                 "responses": {
                     "200": {
@@ -1030,6 +1113,7 @@
                     "Reserves"
                 ],
                 "summary": "Cadastra uma nova reserva",
+                "description": "Acesso permitido para administradores",
                 "operationId": "2d1fbb3fa19a3f425549a4bf4155aab4",
                 "requestBody": {
                     "required": true,
@@ -1101,6 +1185,7 @@
                     "Reserves"
                 ],
                 "summary": "Exibe os detalhes de uma reserva específica",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "fac0fefa91ecfad586df28d575ffe0ab",
                 "parameters": [
                     {
@@ -1126,6 +1211,7 @@
                     "Reserves"
                 ],
                 "summary": "Atualiza uma reserva",
+                "description": "Acesso permitido para administradores",
                 "operationId": "4ea6b8245447d033b62fd6de861803a8",
                 "parameters": [
                     {
@@ -1202,6 +1288,7 @@
                     "Reserves"
                 ],
                 "summary": "Exclui uma reserva",
+                "description": "Acesso permitido para administradores",
                 "operationId": "e276aeb7adec97c6e8eadd628af0db47",
                 "parameters": [
                     {
@@ -1229,6 +1316,7 @@
                     "Rooms"
                 ],
                 "summary": "Lista todos os quartos",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "bea681612754126f01807ff95647eb34",
                 "responses": {
                     "200": {
@@ -1241,6 +1329,7 @@
                     "Rooms"
                 ],
                 "summary": "Cadastra um novo quarto",
+                "description": "Acesso permitido para administradores",
                 "operationId": "cd6c1029f22e2425a1f99cf83e27383a",
                 "requestBody": {
                     "required": true,
@@ -1287,6 +1376,7 @@
                     "Rooms"
                 ],
                 "summary": "Exibe os detalhes de um quarto específico",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "91a59d880bb0297e8321dd75af8f506b",
                 "parameters": [
                     {
@@ -1312,6 +1402,7 @@
                     "Rooms"
                 ],
                 "summary": "Atualiza um quarto",
+                "description": "Acesso permitido para administradores",
                 "operationId": "c489811fdd25dfe273cf9a5bc3b5d386",
                 "parameters": [
                     {
@@ -1366,6 +1457,7 @@
                     "Rooms"
                 ],
                 "summary": "Exclui um quarto",
+                "description": "Acesso permitido para administradores",
                 "operationId": "61024891be80949c0aaa6e4536381225",
                 "parameters": [
                     {
@@ -1393,18 +1485,25 @@
                     "Users"
                 ],
                 "summary": "Lista todos os usuários",
+                "description": "Acesso permitido para administradores",
                 "operationId": "c457726701591d1183b53aa71fc13441",
                 "responses": {
                     "200": {
                         "description": "Lista de usuários"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Cadastra um novo usuário",
+                "description": "Acesso permitido para administradores e recepcionistas",
                 "operationId": "592819a0265360b2014512d6dbfaf0e7",
                 "requestBody": {
                     "required": true,
@@ -1449,7 +1548,12 @@
                     "500": {
                         "description": "Usuário não cadastrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/users/{id}": {
@@ -1458,6 +1562,7 @@
                     "Users"
                 ],
                 "summary": "Exibe os detalhes de um usuário específico",
+                "description": "Acesso permitido para administradores",
                 "operationId": "36a33ff774d5cba33c039dec2c3e0287",
                 "parameters": [
                     {
@@ -1474,15 +1579,21 @@
                         "description": "Detalhes do usuário"
                     },
                     "404": {
-                        "description": "usuário não encontrado"
+                        "description": "Usuário não encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Atualiza um usuário",
+                "description": "Acesso permitido para administradores",
                 "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
                 "parameters": [
                     {
@@ -1537,13 +1648,19 @@
                     "500": {
                         "description": "Usuário não encontrado ou não atualizado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Exclui um usuário",
+                "description": "Acesso permitido para administradores",
                 "operationId": "fa56cffde745d3f152f95cbacd936c0b",
                 "parameters": [
                     {
@@ -1560,16 +1677,21 @@
                         "description": "Usuário excluído com sucesso"
                     },
                     "500": {
-                        "description": "Usuário não encontrado/excluido"
+                        "description": "Usuário não encontrado/excluído"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
     "tags": [
         {
-            "name": "Autenticação",
-            "description": "Autenticação"
+            "name": "Auth",
+            "description": "Auth"
         },
         {
             "name": "Coupons",

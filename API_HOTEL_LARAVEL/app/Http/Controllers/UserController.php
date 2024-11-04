@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-use function Laravel\Prompts\table;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -15,14 +13,20 @@ class UserController extends Controller
      *     path="/api/users",
      *     tags={"Users"},
      *     summary="Lista todos os usuários",
+     *     description="Acesso permitido para administradores",
+     *     security={{ "sanctum": {} }},
      *     @OA\Response(response=200, description="Lista de usuários")
      * )
      */
     public function index()
     {
-        $users = DB::table('users')->whereNull('deleted_at')->get();
-
-        return response()->json($users, 200);
+        try {
+            $users = DB::table('users')->whereNull('deleted_at')->get();
+            return response()->json($users, 200);
+        } catch (\Exception $e) {
+            Log::error('Erro ao listar usuários: ' . $e->getMessage());
+            return response()->json(['message' => 'Erro ao listar usuários'], 500);
+        }
     }
 
     /**
@@ -30,6 +34,8 @@ class UserController extends Controller
      *     path="/api/users",
      *     tags={"Users"},
      *     summary="Cadastra um novo usuário",
+     *     description="Acesso permitido para administradores e recepcionistas",
+     *     security={{ "sanctum": {} }},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -46,26 +52,28 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $user = DB::table('users')->insertGetId([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'role' => $data['role'],
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+            $user = DB::table('users')->insertGetId([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'role' => $data['role'],
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
 
-        if ($user === 0) {
-            return response()->json([
-                'message' => 'Usuário não cadastrado'
-            ], 500);
+            if ($user === 0) {
+                Log::error('Usuário não cadastrado');
+                return response()->json(['message' => 'Usuário não cadastrado'], 500);
+            }
+
+            return response()->json(['message' => 'Cadastrado com sucesso'], 201);
+        } catch (\Exception $e) {
+            Log::error('Erro ao cadastrar usuário: ' . $e->getMessage());
+            return response()->json(['message' => 'Erro ao cadastrar usuário'], 500);
         }
-
-        return response()->json([
-            'message' => 'Cadastrado com sucesso'
-        ], 201);
     }
 
     /**
@@ -73,6 +81,8 @@ class UserController extends Controller
      *     path="/api/users/{id}",
      *     tags={"Users"},
      *     summary="Exibe os detalhes de um usuário específico",
+     *     description="Acesso permitido para administradores",
+     *     security={{ "sanctum": {} }},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -80,23 +90,27 @@ class UserController extends Controller
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(response=200, description="Detalhes do usuário"),
-     *     @OA\Response(response=404, description="usuário não encontrado")
+     *     @OA\Response(response=404, description="Usuário não encontrado")
      * )
      */
     public function show(string $id)
     {
-        $user = DB::table('users')
-                ->where('id', $id)
-                ->whereNull('deleted_at')
-                ->first();
+        try {
+            $user = DB::table('users')
+                    ->where('id', $id)
+                    ->whereNull('deleted_at')
+                    ->first();
 
-        if(!$user){
-            return response()->json([
-                'message' => 'usuário não encontrado'
-            ], 404);
+            if (!$user) {
+                Log::error("Usuário com ID {$id} não encontrado");
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            return response()->json($user, 200);
+        } catch (\Exception $e) {
+            Log::error("Erro ao exibir usuário com ID {$id}: " . $e->getMessage());
+            return response()->json(['message' => 'Erro ao exibir usuário'], 500);
         }
-
-        return response()->json($user,200);
     }
 
     /**
@@ -104,6 +118,8 @@ class UserController extends Controller
      *     path="/api/users/{id}",
      *     tags={"Users"},
      *     summary="Atualiza um usuário",
+     *     description="Acesso permitido para administradores",
+     *     security={{ "sanctum": {} }},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -126,26 +142,28 @@ class UserController extends Controller
      */
     public function update(UserStoreRequest $request, string $id)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $userPut = DB::table('users')->where('id', $id)
-                    ->update([
-                        'name' => $data['name'],
-                        'email' => $data['email'],
-                        'password' => bcrypt($data['password']),
-                        'role' => $data['role'],
-                        'updated_at' => now()
-                    ]);
+            $userPut = DB::table('users')->where('id', $id)
+                        ->update([
+                            'name' => $data['name'],
+                            'email' => $data['email'],
+                            'password' => bcrypt($data['password']),
+                            'role' => $data['role'],
+                            'updated_at' => now()
+                        ]);
 
-        if ($userPut === 0) {
-            return response()->json([
-                'message' => 'Usuário não encontrado ou não atualizado'
-            ], 500);
+            if ($userPut === 0) {
+                Log::error("Usuário com ID {$id} não encontrado ou não atualizado");
+                return response()->json(['message' => 'Usuário não encontrado ou não atualizado'], 500);
+            }
+
+            return response()->json(['message' => 'Atualizado com sucesso'], 201);
+        } catch (\Exception $e) {
+            Log::error("Erro ao atualizar usuário com ID {$id}: " . $e->getMessage());
+            return response()->json(['message' => 'Erro ao atualizar usuário'], 500);
         }
-
-        return response()->json([
-            'message' => 'Atualizado com sucesso'
-        ], 201);
     }
 
     /**
@@ -153,6 +171,8 @@ class UserController extends Controller
      *     path="/api/users/{id}",
      *     tags={"Users"},
      *     summary="Exclui um usuário",
+     *     description="Acesso permitido para administradores",
+     *     security={{ "sanctum": {} }},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -160,21 +180,23 @@ class UserController extends Controller
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(response=201, description="Usuário excluído com sucesso"),
-     *     @OA\Response(response=500, description="Usuário não encontrado/excluido")
+     *     @OA\Response(response=500, description="Usuário não encontrado/excluído")
      * )
      */
     public function destroy(string $id)
     {
-        $userExist = DB::table('users')->where('id', $id)->update(['deleted_at'=> now()]);
+        try {
+            $userExist = DB::table('users')->where('id', $id)->update(['deleted_at' => now()]);
 
-        if(!$userExist){
-            return response()->json([
-                'message' => 'Usuário não encontrado/excluido'
-            ], 500);
+            if (!$userExist) {
+                Log::error("Usuário com ID {$id} não encontrado/excluído");
+                return response()->json(['message' => 'Usuário não encontrado/excluído'], 500);
+            }
+
+            return response()->json(['message' => 'Usuário excluído com sucesso'], 201);
+        } catch (\Exception $e) {
+            Log::error("Erro ao excluir usuário com ID {$id}: " . $e->getMessage());
+            return response()->json(['message' => 'Erro ao excluir usuário'], 500);
         }
-
-        return response()->json([
-            'Message' => 'Usuário excluído com sucesso'
-        ], 201);
     }
 }
