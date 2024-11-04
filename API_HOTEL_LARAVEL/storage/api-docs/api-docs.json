@@ -1,0 +1,1611 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api Hotel",
+        "description": "API para gerenciar as atividades de hoteis",
+        "contact": {
+            "email": "italojefer55@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/api/"
+        }
+    ],
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Realiza o login do usuário",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token de autenticação"
+                    },
+                    "401": {
+                        "description": "Falha ao realizar login"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Realiza o logout do usuário",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Deslogado com sucesso"
+                    }
+                }
+            }
+        },
+        "/api/coupons": {
+            "get": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Lista todos os cupons",
+                "operationId": "604737e7b2bc9f1cf60f74f3e9d3d52e",
+                "responses": {
+                    "200": {
+                        "description": "Lista de cupons"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Cadastra um novo cupom",
+                "operationId": "a75e008d77d1e534714819e34f38da3b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "discount_value"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "DISCOUNT2023"
+                                    },
+                                    "discount_value": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 20
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cupom criado com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro ao criar o cupom"
+                    }
+                }
+            }
+        },
+        "/api/coupons/{id}": {
+            "get": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Exibe os detalhes de um cupom específico",
+                "operationId": "439c255d62548658a727322622e4a792",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do cupom"
+                    },
+                    "404": {
+                        "description": "Cupom não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Atualiza um cupom",
+                "operationId": "aee7a95450193d67216dc3304070b3be",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "discount_value"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "DISCOUNT2023"
+                                    },
+                                    "discount_value": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 20
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cupom atualizado com sucesso"
+                    },
+                    "500": {
+                        "description": "Cupom não encontrado ou não atualizado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Exclui um cupom",
+                "operationId": "e8f3796768468061ce65c71f0c449d3a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Cupom excluído com sucesso"
+                    },
+                    "500": {
+                        "description": "Cupom não excluído"
+                    }
+                }
+            }
+        },
+        "/api/dailies": {
+            "get": {
+                "tags": [
+                    "Dailies"
+                ],
+                "summary": "Lista todas as diárias",
+                "operationId": "46ca167e1f551a574fcb624725ca3dff",
+                "responses": {
+                    "200": {
+                        "description": "Lista de diárias"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Dailies"
+                ],
+                "summary": "Cadastra uma nova diária",
+                "operationId": "8ded31504146cd7ed9bbda33fba647a8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "reserveId",
+                                    "date",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "reserveId": {
+                                        "type": "string",
+                                        "example": "R123"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-04-01"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 200
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Diária cadastrada com sucesso"
+                    },
+                    "500": {
+                        "description": "Diária não cadastrada"
+                    }
+                }
+            }
+        },
+        "/api/dailies/{id}": {
+            "get": {
+                "tags": [
+                    "Dailies"
+                ],
+                "summary": "Exibe os detalhes de uma diária específica",
+                "operationId": "33d9101104ac0ee31adce7f9ac730c6d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes da diária"
+                    },
+                    "404": {
+                        "description": "Diária não encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Dailies"
+                ],
+                "summary": "Atualiza uma diária",
+                "operationId": "d536d15172bd83792ecf466329d1eb29",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "reserveId",
+                                    "date",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "reserveId": {
+                                        "type": "string",
+                                        "example": "R123"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-04-01"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 200
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Diária atualizada com sucesso"
+                    },
+                    "500": {
+                        "description": "Diária não atualizada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Dailies"
+                ],
+                "summary": "Exclui uma diária",
+                "operationId": "51decb28ef22ebd2d920d2e08fb9b71d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Diária excluída com sucesso"
+                    },
+                    "500": {
+                        "description": "Diária não excluída"
+                    }
+                }
+            }
+        },
+        "/api/guests": {
+            "get": {
+                "tags": [
+                    "Guests"
+                ],
+                "summary": "Lista todos os hóspedes",
+                "operationId": "a21f3a6857fc5f6527360a0149991073",
+                "responses": {
+                    "200": {
+                        "description": "Lista de hóspedes"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Guests"
+                ],
+                "summary": "Cadastra um novo hóspede",
+                "operationId": "cd002bbbe6f48bb072baf7c5bad5384a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "lastname",
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Hóspede cadastrado com sucesso"
+                    },
+                    "500": {
+                        "description": "Hóspede não cadastrado"
+                    }
+                }
+            }
+        },
+        "/api/guests/{id}": {
+            "get": {
+                "tags": [
+                    "Guests"
+                ],
+                "summary": "Exibe os detalhes de um hóspede específico",
+                "operationId": "a6f1cb409185665b6c5548f75613a9e7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do hóspede"
+                    },
+                    "404": {
+                        "description": "Hóspede não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Guests"
+                ],
+                "summary": "Atualiza um hóspede",
+                "operationId": "5fa0c19ea38ebaa321bb0a5abbf8a12e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "lastname",
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Hóspede atualizado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar o hóspede"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Guests"
+                ],
+                "summary": "Exclui um hóspede",
+                "operationId": "236b3c28f038fa3f4a1ca4a54c27957c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Hóspede excluído com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao excluir o hóspede"
+                    }
+                }
+            }
+        },
+        "/api/hotels": {
+            "get": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Lista todos os hotéis",
+                "operationId": "651e79aa92da9a32b76621ef8e320dee",
+                "responses": {
+                    "200": {
+                        "description": "Lista de hotéis"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Cadastra um novo hotel",
+                "operationId": "4a362f379f7f5bdeaa5a4a0377792a48",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Hotel Example"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Hotel cadastrado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao cadastrar hotel"
+                    }
+                }
+            }
+        },
+        "/api/hotels/{id}": {
+            "get": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Exibe os detalhes de um hotel específico",
+                "operationId": "8d5a1ce07c6fac0e3190d609919e6212",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do hotel"
+                    },
+                    "404": {
+                        "description": "Hotel não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Atualiza um hotel",
+                "operationId": "5acbf8efb42c96351d97ff7913a0c18c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Hotel Updated Example"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Hotel atualizado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar hotel"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Hotels"
+                ],
+                "summary": "Exclui um hotel",
+                "operationId": "bff8afd1a8fdd25a02c533ef24f7ed7d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Hotel excluído com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao apagar hotel"
+                    }
+                }
+            }
+        },
+        "/api/payments": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Lista todos os pagamentos",
+                "operationId": "5d60a9222dff76d7cf262181c402186c",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pagamentos"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Cadastra um novo pagamento",
+                "operationId": "d36e2be5fe281b6d1586dd9ce1306ab5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "reserveId",
+                                    "value",
+                                    "method",
+                                    "paid"
+                                ],
+                                "properties": {
+                                    "reserveId": {
+                                        "type": "string",
+                                        "example": "R123"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 200
+                                    },
+                                    "method": {
+                                        "type": "string",
+                                        "example": "Credit Card"
+                                    },
+                                    "paid": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pagamento criado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao criar pagamento"
+                    }
+                }
+            }
+        },
+        "/api/payments/{id}": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Exibe os detalhes de um pagamento específico",
+                "operationId": "c3632c1a7d5e6eebb409bdeb974af413",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do pagamento"
+                    },
+                    "404": {
+                        "description": "Falha ao buscar pagamento"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Atualiza um pagamento",
+                "operationId": "c875f05cad3e5fce8d2a704a64e641db",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "reserveId",
+                                    "value",
+                                    "method",
+                                    "paid"
+                                ],
+                                "properties": {
+                                    "reserveId": {
+                                        "type": "string",
+                                        "example": "R123"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 200
+                                    },
+                                    "method": {
+                                        "type": "string",
+                                        "example": "Credit Card"
+                                    },
+                                    "paid": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pagamento atualizado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar pagamento"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Exclui um pagamento",
+                "operationId": "0a18c3c7854ce5ee449734bd2a0d7f9d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pagamento excluído com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao excluir pagamento"
+                    }
+                }
+            }
+        },
+        "/api/reserves/{reserveId}/addGuest": {
+            "post": {
+                "tags": [
+                    "Reserve Guests"
+                ],
+                "summary": "Adiciona um hóspede a uma reserva",
+                "operationId": "4f6d29e36d7dbc3dfa7c510a31fe6108",
+                "parameters": [
+                    {
+                        "name": "reserveId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "guestId"
+                                ],
+                                "properties": {
+                                    "guestId": {
+                                        "type": "string",
+                                        "example": "G789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Hóspede adicionado a reserva"
+                    },
+                    "404": {
+                        "description": "Hóspede ou reserva não existem"
+                    }
+                }
+            }
+        },
+        "/api/reserves/{reserveId}/{guestId}/rmvGuest": {
+            "delete": {
+                "tags": [
+                    "Reserve Guests"
+                ],
+                "summary": "Remove um hóspede de uma reserva",
+                "operationId": "fbdad010bf41c534967d569751837823",
+                "parameters": [
+                    {
+                        "name": "reserveId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "guestId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Hóspede removido"
+                    },
+                    "500": {
+                        "description": "Hóspede ou reserva não existem"
+                    }
+                }
+            }
+        },
+        "/api/reserves/{reserveId}/getGuest": {
+            "get": {
+                "tags": [
+                    "Reserve Guests"
+                ],
+                "summary": "Lista todos os hóspedes de uma reserva",
+                "operationId": "3e1f484b4eae1296405d5a5b2a376e54",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de hóspedes"
+                    }
+                }
+            }
+        },
+        "/api/reserves/{guestId}/getReserve": {
+            "get": {
+                "tags": [
+                    "Reserve Guests"
+                ],
+                "summary": "Lista todas as reservas de um hóspede",
+                "operationId": "b3075aae4a7fe406dc1dbea271072e97",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de reservas"
+                    }
+                }
+            }
+        },
+        "/api/reserves": {
+            "get": {
+                "tags": [
+                    "Reserves"
+                ],
+                "summary": "Lista todas as reservas",
+                "operationId": "d9990a505d9d1c662a6a4686eff5ad75",
+                "responses": {
+                    "200": {
+                        "description": "Lista de reservas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Reserves"
+                ],
+                "summary": "Cadastra uma nova reserva",
+                "operationId": "2d1fbb3fa19a3f425549a4bf4155aab4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "hotelCode",
+                                    "roomCode",
+                                    "checkIn",
+                                    "checkOut",
+                                    "total"
+                                ],
+                                "properties": {
+                                    "hotelCode": {
+                                        "type": "string",
+                                        "example": "H123"
+                                    },
+                                    "roomCode": {
+                                        "type": "string",
+                                        "example": "R456"
+                                    },
+                                    "checkIn": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-04-01"
+                                    },
+                                    "checkOut": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-04-05"
+                                    },
+                                    "total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1000
+                                    },
+                                    "coupon": {
+                                        "type": "string",
+                                        "example": "DISCOUNT10"
+                                    },
+                                    "additional_charges": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reserva criada com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao criar a reserva"
+                    },
+                    "404": {
+                        "description": "Quarto não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/reserves/{id}": {
+            "get": {
+                "tags": [
+                    "Reserves"
+                ],
+                "summary": "Exibe os detalhes de uma reserva específica",
+                "operationId": "fac0fefa91ecfad586df28d575ffe0ab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes da reserva"
+                    },
+                    "404": {
+                        "description": "Reserva não encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Reserves"
+                ],
+                "summary": "Atualiza uma reserva",
+                "operationId": "4ea6b8245447d033b62fd6de861803a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "hotelCode",
+                                    "roomCode",
+                                    "checkIn",
+                                    "checkOut",
+                                    "total"
+                                ],
+                                "properties": {
+                                    "hotelCode": {
+                                        "type": "string",
+                                        "example": "H123"
+                                    },
+                                    "roomCode": {
+                                        "type": "string",
+                                        "example": "R456"
+                                    },
+                                    "checkIn": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-04-01"
+                                    },
+                                    "checkOut": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-04-05"
+                                    },
+                                    "total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1000
+                                    },
+                                    "coupon": {
+                                        "type": "string",
+                                        "example": "DISCOUNT10"
+                                    },
+                                    "additional_charges": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reserva atualizada com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar a reserva"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Reserves"
+                ],
+                "summary": "Exclui uma reserva",
+                "operationId": "e276aeb7adec97c6e8eadd628af0db47",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reserva excluída com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao excluir a reserva"
+                    }
+                }
+            }
+        },
+        "/api/rooms": {
+            "get": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Lista todos os quartos",
+                "operationId": "bea681612754126f01807ff95647eb34",
+                "responses": {
+                    "200": {
+                        "description": "Lista de quartos"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Cadastra um novo quarto",
+                "operationId": "cd6c1029f22e2425a1f99cf83e27383a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "hotelCode",
+                                    "name",
+                                    "availability"
+                                ],
+                                "properties": {
+                                    "hotelCode": {
+                                        "type": "string",
+                                        "example": "H123"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Suite Deluxe"
+                                    },
+                                    "availability": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Quarto cadastrado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao criar quarto"
+                    }
+                }
+            }
+        },
+        "/api/rooms/{id}": {
+            "get": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Exibe os detalhes de um quarto específico",
+                "operationId": "91a59d880bb0297e8321dd75af8f506b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do quarto"
+                    },
+                    "404": {
+                        "description": "Quarto não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Atualiza um quarto",
+                "operationId": "c489811fdd25dfe273cf9a5bc3b5d386",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "hotelCode",
+                                    "name",
+                                    "availability"
+                                ],
+                                "properties": {
+                                    "hotelCode": {
+                                        "type": "string",
+                                        "example": "H123"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Suite Deluxe"
+                                    },
+                                    "availability": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Quarto atualizado com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar quarto"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Exclui um quarto",
+                "operationId": "61024891be80949c0aaa6e4536381225",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Quarto excluído com sucesso"
+                    },
+                    "500": {
+                        "description": "Falha ao excluir quarto"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Lista todos os usuários",
+                "operationId": "c457726701591d1183b53aa71fc13441",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuários"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Cadastra um novo usuário",
+                "operationId": "592819a0265360b2014512d6dbfaf0e7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "role"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cadastrado com sucesso"
+                    },
+                    "500": {
+                        "description": "Usuário não cadastrado"
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Exibe os detalhes de um usuário específico",
+                "operationId": "36a33ff774d5cba33c039dec2c3e0287",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do usuário"
+                    },
+                    "404": {
+                        "description": "usuário não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Atualiza um usuário",
+                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "role"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Atualizado com sucesso"
+                    },
+                    "500": {
+                        "description": "Usuário não encontrado ou não atualizado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Exclui um usuário",
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Usuário excluído com sucesso"
+                    },
+                    "500": {
+                        "description": "Usuário não encontrado/excluido"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticação",
+            "description": "Autenticação"
+        },
+        {
+            "name": "Coupons",
+            "description": "Coupons"
+        },
+        {
+            "name": "Dailies",
+            "description": "Dailies"
+        },
+        {
+            "name": "Guests",
+            "description": "Guests"
+        },
+        {
+            "name": "Hotels",
+            "description": "Hotels"
+        },
+        {
+            "name": "Payments",
+            "description": "Payments"
+        },
+        {
+            "name": "Reserve Guests",
+            "description": "Reserve Guests"
+        },
+        {
+            "name": "Reserves",
+            "description": "Reserves"
+        },
+        {
+            "name": "Rooms",
+            "description": "Rooms"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
