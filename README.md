@@ -12,7 +12,7 @@ que o modelo do banco deixou explicito, portanto há várias funcionalidades nã
 - Laravel Framework
 - MySQL
 - Docker
-- Swagger/OpenAPI 3.0
+- Swagger
 - Laravel Sanctum
 
 ## 🏆 Diferenciais Atendidos
