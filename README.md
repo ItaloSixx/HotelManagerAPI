@@ -20,9 +20,6 @@ Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de
 
 ## 🏆 Diferenciais Atendidos
 
-### Documentação Utilizando Swagger
-- A documentação da API foi desenvolvida utilizando Swagger.
-
 ### 📐 Padrões de Projeto
 - MVC com a adição da camada de Form Request para validação de dados de entrada.
   
