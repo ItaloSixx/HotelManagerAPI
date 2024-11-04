@@ -15,6 +15,7 @@ class GuestsController extends Controller
      *     tags={"Guests"},
      *     summary="Lista todos os hóspedes",
      *     security={{"bearer": {}}},
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Response(response=200, description="Lista de hóspedes"),
      *     @OA\Response(response=403, description="Acesso negado")
      * )
@@ -36,6 +37,7 @@ class GuestsController extends Controller
      *     tags={"Guests"},
      *     summary="Cadastra um novo hóspede",
      *     security={{"bearer": {}}},
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -79,6 +81,7 @@ class GuestsController extends Controller
      *     tags={"Guests"},
      *     summary="Exibe os detalhes de um hóspede específico",
      *     security={{"bearer": {}}},
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -112,6 +115,7 @@ class GuestsController extends Controller
      *     tags={"Guests"},
      *     summary="Atualiza um hóspede",
      *     security={{"bearer": {}}},
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -160,6 +164,7 @@ class GuestsController extends Controller
      *     tags={"Guests"},
      *     summary="Exclui um hóspede",
      *     security={{"bearer": {}}},
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
