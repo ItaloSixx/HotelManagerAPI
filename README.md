@@ -2,8 +2,9 @@
 
 ## 📋 Sobre o Projeto
 
-Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de módulos para facilitar a administração de estabelecimentos hoteleiros. **É importante destacar que o sistema foi desenvolvido com base na modelagem do banco de dados; assim, busquei implementar todas as funcionalidades evidenciadas pelo modelo, incluindo várias que não foram solicitadas no desafio. 
-O histórico completo de commits está disponível na branch master do repositório.**
+Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de módulos para facilitar a administração de estabelecimentos hoteleiros. **É importante destacar que o sistema foi desenvolvido com base na modelagem do banco de dados; assim, busquei implementar todas as funcionalidades evidenciadas pelo modelo, incluindo várias que não foram solicitadas no desafio.**
+
+**O histórico completo de commits está disponível na branch master do repositório.**
 
 ## 🚀 Tecnologias Utilizadas
 
