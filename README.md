@@ -16,7 +16,7 @@ Este projeto é um sistema de gerenciamento hoteleiro que oferece um conjunto de
 - MySQL
 - Docker
 - Swagger
-- Laravel
+- Laravel 11
 - Sanctum
 
 ## 🏆 Diferenciais Atendidos
