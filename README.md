@@ -2,7 +2,7 @@
 
 ## 📋 Sobre o Projeto
 
-Este projeto é um sistema  de gerenciamento hoteleiro que oferece um conjunto de módulos para facilitar a gestão de estabelecimentos hoteleiros, 
+Este projeto é um sistema  de gerenciamento hoteleiro que oferece um conjunto de módulos para facilitar a gestão de estabelecimentos hoteleiros. 
 É mportante ressaltar que o sistema foi desenvolvido com base no que eu visualizei após modelar o banco de dados, tentei atender todas as funcionalidades 
 que o modelo do banco deixou explicito, portanto há várias funcionalidades não solicitas no desafio. 
 
@@ -18,7 +18,7 @@ que o modelo do banco deixou explicito, portanto há várias funcionalidades nã
 ## 🏆 Diferenciais Atendidos
 
 ### Documentação Utilizando Swagger / OpenAPI 3.0
-- A documentação da API foi desenvolvida utilizando Swagger / OpenAPI 3.0, permitindo fácil visualização e teste das rotas de forma interativa.
+- A documentação da API foi desenvolvida utilizando Swagger.
 
 ### 📐 Padrões de Projeto
 - MVC com a adição da camada de Form Request para validação de dados de entrada.
@@ -154,7 +154,7 @@ Portanto, se a forma convencional (sem o `/public`) não funcionar, por favor, a
 ## ⚙️ Configuração do Ambiente
 
 ### Download do Arquivo de Rotas
-Você pode baixar o arquivo de rotas clicando [aqui](#). Execute as rotas utilizando o Postman ou o Insomnia.
+Você pode baixar o arquivo de rotas clicando [aqui](./Arquivos/api_hotel.postman_collection.json) e o ambiente [aqui] (./Arquivos/Caminho.postman_environment.json). Execute as rotas utilizando o Postman ou o Insomnia.
 
 ### Configuração das Variáveis de Ambiente
 Certifique-se de atualizar as variáveis de ambiente para refletir o caminho e a porta corretos do seu container Docker.
