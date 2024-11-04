@@ -34,7 +34,7 @@ class UserController extends Controller
      *     path="/api/users",
      *     tags={"Users"},
      *     summary="Cadastra um novo usuário",
-     *     description="Acesso permitido para todos os usuários autenticados",
+     *     description="Acesso permitido para administradores e recepcionistas",
      *     security={{ "sanctum": {} }},
      *     @OA\RequestBody(
      *         required=true,
